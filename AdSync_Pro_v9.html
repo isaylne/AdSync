@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AdSync Pro · v9</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1a1f4e;--navy-mid:#2b3278;--lav:#7b8cde;--lav-light:#a5b0ea;--lav-pale:#eef0fb;--lav-faint:#f4f5fd;--violet-soft:#ede9ff;--bg:#f0f2fb;--white:#fff;--border:#e2e5f5;--border-soft:#eceeff;--txt:#1a1f4e;--txt2:#6b7280;--txt3:#9ca3af;--green:#10b981;--amber:#f59e0b;--red:#ef4444;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:var(--bg);min-height:100vh;overflow:hidden;}
+.app{display:flex;height:100vh;}
+.sb{width:220px;background:var(--navy);display:flex;flex-direction:column;flex-shrink:0;}
+.sb-logo{padding:20px 18px 12px;border-bottom:1px solid rgba(255,255,255,0.07);}
+.sb-logo-mark{display:flex;align-items:center;gap:9px;}
+.sb-logo-icon{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--lav),#a78bfa);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sb-logo-icon svg{width:13px;height:13px;}
+.sb-logo-text{font-size:17px;font-weight:700;color:#fff;letter-spacing:-0.4px;}
+.sb-logo-sub{font-size:9px;color:rgba(255,255,255,0.25);margin-top:4px;letter-spacing:1.2px;text-transform:uppercase;}
+nav{flex:1;padding:6px 0;overflow-y:auto;}
+.ns{padding:12px 18px 4px;font-size:9px;color:rgba(255,255,255,0.22);letter-spacing:1.5px;text-transform:uppercase;font-weight:600;}
+.ni{display:flex;align-items:center;gap:9px;padding:8px 18px;cursor:pointer;color:rgba(255,255,255,0.44);font-size:13px;transition:all 0.13s;border-left:2px solid transparent;user-select:none;}
+.ni:hover{color:rgba(255,255,255,0.8);background:rgba(255,255,255,0.04);}
+.ni.active{color:#fff;background:rgba(123,140,222,0.14);border-left-color:var(--lav);}
+.ni-icon{font-size:14px;width:17px;text-align:center;flex-shrink:0;}
+.nb{margin-left:auto;font-size:9px;padding:2px 6px;border-radius:20px;font-weight:600;}
+.nb-live{background:var(--red);color:white;animation:pulse 2s infinite;}
+.nb-y2{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.32);}
+.nb-y3{background:rgba(123,140,222,0.18);color:var(--lav);}
+.nb-alert{background:rgba(239,68,68,0.18);color:#fca5a5;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.45}}
+.sb-foot{padding:10px 12px;border-top:1px solid rgba(255,255,255,0.06);}
+.brand-pill{background:rgba(255,255,255,0.05);border-radius:9px;padding:9px 11px;display:flex;align-items:center;gap:9px;}
+.ba{width:28px;height:28px;border-radius:6px;background:linear-gradient(135deg,var(--lav),#a78bfa);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;flex-shrink:0;}
+.bn{font-size:12px;color:rgba(255,255,255,0.8);font-weight:600;}
+.bp{font-size:9px;color:rgba(255,255,255,0.26);}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
+.topbar{background:var(--white);border-bottom:1px solid var(--border);padding:0 22px;height:52px;display:flex;align-items:center;gap:11px;flex-shrink:0;}
+.tb-bread{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--txt3);flex:1;min-width:0;}
+.tb-bread strong{color:var(--txt);font-weight:600;}
+.tb-search{display:flex;align-items:center;gap:7px;background:var(--lav-faint);border:1px solid var(--border-soft);border-radius:8px;padding:6px 11px;}
+.tb-search input{border:none;background:transparent;font-size:12px;color:var(--txt);font-family:'DM Sans',sans-serif;outline:none;width:160px;}
+.tb-search input::placeholder{color:var(--txt3);}
+.kbd{font-size:9px;background:var(--border);border-radius:3px;padding:1px 5px;color:var(--txt3);font-weight:600;}
+.live-b{display:flex;align-items:center;gap:5px;background:#fef2f2;border:1px solid #fecaca;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;color:var(--red);flex-shrink:0;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 1.5s infinite;}
+.notif-btn{position:relative;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;border-radius:8px;transition:background 0.13s;color:var(--txt2);}
+.notif-btn:hover{background:var(--lav-faint);color:var(--navy);}
+.notif-btn svg{width:17px;height:17px;}
+.notif-count{position:absolute;top:3px;right:3px;width:15px;height:15px;background:var(--red);border-radius:50%;font-size:8px;font-weight:700;color:white;display:flex;align-items:center;justify-content:center;border:2px solid white;}
+.btn-share{display:flex;align-items:center;gap:5px;padding:6px 11px;border:1px solid var(--border);border-radius:8px;font-size:12px;font-weight:500;color:var(--txt2);cursor:pointer;background:white;font-family:'DM Sans',sans-serif;transition:all 0.13s;}
+.btn-share:hover{border-color:var(--lav);color:var(--navy);}
+.btn-export{display:flex;align-items:center;gap:5px;padding:6px 13px;border:none;border-radius:8px;font-size:12px;font-weight:600;color:white;cursor:pointer;background:var(--navy);font-family:'DM Sans',sans-serif;transition:opacity 0.13s;}
+.btn-export:hover{opacity:0.85;}
+.filter-bar{background:var(--white);border-bottom:1px solid var(--border);padding:0 22px;height:38px;display:none;align-items:center;gap:9px;flex-shrink:0;}
+.filter-bar.show{display:flex;}
+.tc{display:flex;gap:2px;}
+.chip{padding:3px 9px;border-radius:6px;font-size:11.5px;font-weight:500;cursor:pointer;color:var(--txt3);transition:all 0.12s;}
+.chip:hover{background:var(--lav-faint);color:var(--navy);}
+.chip.active{background:var(--navy);color:white;font-weight:600;}
+.fsep{width:1px;height:16px;background:var(--border);}
+.fchip{display:flex;align-items:center;gap:4px;padding:3px 9px;border:1px solid var(--border-soft);border-radius:20px;font-size:11px;font-weight:500;color:var(--navy-mid);background:var(--lav-faint);}
+.aud-chip{display:flex;align-items:center;gap:4px;padding:3px 9px;border:1px solid var(--border-soft);border-radius:20px;font-size:11px;font-weight:500;color:var(--navy-mid);background:var(--violet-soft);cursor:pointer;position:relative;}
+.aud-drop{position:absolute;top:calc(100% + 5px);left:0;background:white;border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 24px rgba(26,31,78,0.12);z-index:60;display:none;min-width:120px;overflow:hidden;}
+.aud-drop.open{display:block;}
+.aud-opt{padding:7px 13px;font-size:12px;color:var(--txt2);cursor:pointer;transition:background 0.11s;}
+.aud-opt:hover{background:var(--lav-faint);color:var(--navy);}
+.aud-opt.sel{color:var(--navy);font-weight:600;background:var(--lav-faint);}
+.reach-pill{margin-left:auto;font-size:11px;color:var(--txt3);}
+.reach-pill strong{color:var(--txt);}
+.net-tabs{background:var(--white);border-bottom:1px solid var(--border);padding:0 22px;height:36px;display:none;align-items:center;gap:1px;flex-shrink:0;}
+.net-tabs.show{display:flex;}
+.nt{display:flex;align-items:center;gap:4px;padding:5px 11px;border-radius:5px 5px 0 0;font-size:12px;font-weight:500;cursor:pointer;color:var(--txt3);border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.12s;}
+.nt:hover{color:var(--navy);background:var(--lav-faint);}
+.nt.active{color:var(--navy);font-weight:700;border-bottom-color:var(--lav);}
+.nt .cnt{font-size:9px;background:var(--lav-pale);color:var(--lav);border-radius:8px;padding:1px 5px;font-weight:600;}
+.nt.active .cnt{background:var(--navy);color:white;}
+.notif-panel{position:absolute;top:52px;right:78px;width:340px;background:white;border:1px solid var(--border);border-radius:13px;box-shadow:0 16px 40px rgba(26,31,78,0.14);z-index:90;display:none;overflow:hidden;}
+.notif-panel.open{display:block;}
+.np-hdr{padding:13px 15px 9px;border-bottom:1px solid var(--border-soft);display:flex;align-items:center;justify-content:space-between;}
+.np-title{font-size:13px;font-weight:700;color:var(--navy);}
+.np-mark{font-size:11px;color:var(--lav);cursor:pointer;font-weight:500;}
+.np-item{display:flex;gap:9px;padding:10px 15px;border-bottom:1px solid var(--border-soft);cursor:pointer;transition:background 0.11s;}
+.np-item:hover{background:var(--lav-faint);}
+.np-item:last-child{border-bottom:none;}
+.np-dot{width:7px;height:7px;border-radius:50%;margin-top:4px;flex-shrink:0;}
+.np-msg{font-size:12px;color:var(--txt2);line-height:1.45;}
+.np-time{font-size:10px;color:var(--txt3);margin-top:2px;}
+.content{flex:1;overflow-y:auto;padding:18px 22px;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
+.pane{display:none;}
+.pane.active{display:block;}
+.kpi4{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:15px;}
+.kc{background:var(--white);border-radius:11px;padding:14px 15px;border:1px solid var(--border);}
+.kl{font-size:10px;color:var(--txt3);font-weight:500;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:5px;}
+.kv{font-size:24px;font-weight:700;color:var(--txt);letter-spacing:-0.5px;line-height:1;}
+.kd{font-size:11px;margin-top:5px;font-weight:500;}
+.up{color:var(--green);}.dn{color:var(--red);}.nu{color:var(--txt3);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.card{background:var(--white);border-radius:11px;border:1px solid var(--border);padding:16px;margin-bottom:14px;}
+.card:last-child{margin-bottom:0;}
+.ct{font-size:13px;font-weight:600;color:var(--txt);margin-bottom:13px;display:flex;align-items:center;justify-content:space-between;}
+.cs{font-size:11px;color:var(--txt3);font-weight:400;}
+.tag{font-size:9px;font-weight:600;padding:2px 7px;border-radius:20px;white-space:nowrap;}
+.tl{background:#dcfce7;color:#166534;}.tf{background:#fef3c7;color:#92400e;}.tlo{background:#fee2e2;color:#991b1b;}
+.ta{background:#dcfce7;color:#166534;}.tr{background:#fef3c7;color:#92400e;}.tp{background:#fee2e2;color:#991b1b;}
+.ts{background:var(--lav-pale);color:var(--navy-mid);}
+.sb-bar{height:5px;border-radius:3px;background:var(--border);overflow:hidden;}
+.sb-fill{height:100%;border-radius:3px;background:var(--lav);}
+.aitem{display:flex;align-items:center;gap:11px;padding:10px 12px;background:var(--lav-faint);border-radius:9px;border:1px solid var(--border-soft);cursor:pointer;transition:all 0.13s;margin-bottom:7px;}
+.aitem:hover{border-color:var(--lav-light);}
+.aitem.sel{border-color:var(--navy);}
+.aitem:last-child{margin-bottom:0;}
+.ath{width:36px;height:36px;border-radius:8px;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--lav);flex-shrink:0;}
+.an{font-size:12.5px;font-weight:600;color:var(--navy);}
+.am{font-size:11px;color:var(--txt3);margin-top:2px;}
+.ametrics{display:flex;gap:14px;flex-shrink:0;}
+.mv{font-size:13px;font-weight:700;color:var(--navy);}
+.mk{font-size:9px;color:var(--txt3);}
+.sap{background:var(--white);border:1px solid var(--border);border-radius:11px;overflow:hidden;margin-bottom:14px;}
+.sap-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 15px;border-bottom:1px solid var(--border-soft);background:var(--lav-faint);}
+.sap-label{font-size:10px;font-weight:600;color:var(--txt3);text-transform:uppercase;letter-spacing:0.7px;}
+.btn-open{display:flex;align-items:center;gap:4px;padding:4px 10px;border:1px solid var(--border);border-radius:7px;font-size:11px;font-weight:500;color:var(--navy);cursor:pointer;background:white;font-family:'DM Sans',sans-serif;}
+.sap-body{display:flex;align-items:center;gap:14px;padding:12px 15px;}
+.sap-thumb{width:64px;height:48px;border-radius:7px;background:var(--navy);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--lav);flex-shrink:0;letter-spacing:0.4px;}
+.sap-meta-row{display:flex;align-items:center;gap:7px;margin-bottom:3px;flex-wrap:wrap;}
+.sap-cid{font-size:10px;font-weight:700;background:var(--lav-pale);color:var(--navy-mid);padding:2px 7px;border-radius:4px;font-family:monospace;}
+.sap-name{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:2px;}
+.sap-reach{font-size:11px;color:var(--txt3);}
+.sap-info{flex:1;min-width:0;}
+.sap-mets{display:flex;flex-shrink:0;border-left:1px solid var(--border-soft);padding-left:14px;}
+.sap-met{padding:0 13px;border-right:1px solid var(--border-soft);text-align:center;}
+.sap-met:last-child{border-right:none;padding-right:6px;}
+.pm-lbl{font-size:9px;color:var(--txt3);text-transform:uppercase;letter-spacing:0.4px;margin-bottom:3px;}
+.pm-val{font-size:17px;font-weight:700;color:var(--navy);}
+.cht{width:100%;border-collapse:collapse;font-size:12.5px;}
+.cht th{text-align:left;padding:7px 11px;font-size:10px;color:var(--txt3);text-transform:uppercase;letter-spacing:0.5px;font-weight:600;border-bottom:1px solid var(--border);}
+.cht td{padding:9px 11px;border-bottom:1px solid #f3f4f6;color:var(--txt2);}
+.cht tr:last-child td{border-bottom:none;}
+.cht tr.hl td{background:var(--lav-faint);}
+.brow{display:flex;align-items:center;gap:11px;padding:8px 0;border-bottom:1px solid #f3f4f6;}
+.brow:last-child{border-bottom:none;}
+.bl{width:100px;font-size:11.5px;color:var(--txt2);flex-shrink:0;}
+.btrack{flex:1;height:7px;background:var(--border);border-radius:4px;overflow:hidden;}
+.bfn{height:100%;border-radius:4px;background:var(--navy);}
+.bfg{height:100%;border-radius:4px;background:#d1d5db;}
+.bval{width:38px;text-align:right;font-weight:700;font-size:12px;flex-shrink:0;}
+.alert-item{display:flex;gap:10px;padding:11px 13px;border-radius:9px;border:1px solid var(--border);margin-bottom:8px;align-items:flex-start;}
+.adot{width:8px;height:8px;border-radius:50%;margin-top:3px;flex-shrink:0;}
+.a-title{font-size:12.5px;font-weight:600;color:var(--navy);margin-bottom:2px;}
+.a-desc{font-size:11.5px;color:var(--txt2);line-height:1.45;}
+.a-time{font-size:10px;color:var(--txt3);margin-top:3px;}
+.abadge{margin-left:auto;font-size:9px;padding:2px 7px;border-radius:20px;font-weight:600;flex-shrink:0;}
+.exp-card{display:flex;align-items:flex-start;gap:10px;padding:11px 13px;border:1px solid var(--border);border-radius:9px;margin-bottom:8px;}
+.var-chip{padding:2px 8px;border-radius:5px;font-size:10px;font-weight:500;}
+.aud-seg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+.aud-card{background:white;border-radius:11px;border:1px solid var(--border);padding:14px 15px;}
+.aud-brow{display:flex;align-items:center;gap:8px;margin-bottom:5px;font-size:11px;}
+.aud-lbl{width:72px;color:var(--txt2);flex-shrink:0;}
+.aud-track{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;}
+.aud-fill{height:100%;border-radius:3px;}
+.aud-val{width:32px;text-align:right;font-weight:600;color:var(--txt);}
+.bud-bar{display:flex;height:28px;border-radius:7px;overflow:hidden;margin:8px 0;}
+.bud-seg{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:white;transition:all 0.3s;}
+.leg{display:flex;gap:12px;flex-wrap:wrap;margin-top:5px;}
+.leg-i{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--txt2);}
+.leg-d{width:9px;height:9px;border-radius:2px;flex-shrink:0;}
+.lfi{display:flex;align-items:flex-start;gap:10px;padding:9px 12px;background:var(--lav-faint);border-radius:8px;font-size:12px;margin-bottom:6px;border:1px solid var(--border-soft);}
+.coming{text-align:center;padding:14px;border-top:1px dashed var(--border);margin-top:18px;}
+.coming-badge{display:inline-flex;align-items:center;gap:5px;background:var(--lav-faint);border:1px solid var(--border-soft);border-radius:20px;padding:5px 13px;font-size:11px;color:var(--txt3);font-weight:500;}
+.modal-overlay{position:fixed;inset:0;background:rgba(26,31,78,0.42);backdrop-filter:blur(3px);z-index:100;display:none;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:white;border-radius:16px;padding:26px;width:420px;box-shadow:0 24px 60px rgba(26,31,78,0.18);}
+.modal-title{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:5px;}
+.modal-sub{font-size:13px;color:var(--txt3);margin-bottom:18px;}
+.exp-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
+.exp-opt{display:flex;align-items:center;gap:11px;padding:11px 13px;border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:all 0.13s;}
+.exp-opt:hover{border-color:var(--lav);background:var(--lav-faint);}
+.exp-opt.sel{border-color:var(--navy);background:var(--lav-pale);}
+.exp-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.exp-name{font-size:13px;font-weight:600;color:var(--navy);}
+.exp-desc{font-size:11px;color:var(--txt3);margin-top:1px;}
+.modal-footer{display:flex;gap:9px;justify-content:flex-end;}
+.btn-cancel{padding:8px 15px;border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--txt2);cursor:pointer;background:white;font-family:'DM Sans',sans-serif;}
+.btn-dl{padding:8px 18px;border:none;border-radius:8px;font-size:13px;font-weight:600;color:white;cursor:pointer;background:var(--navy);font-family:'DM Sans',sans-serif;}
+.ai-fab{position:fixed;bottom:26px;right:26px;width:48px;height:48px;border-radius:50%;background:var(--navy);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(26,31,78,0.38);transition:transform 0.18s;z-index:200;}
+.ai-fab:hover{transform:scale(1.07);}
+.ai-fab svg{width:21px;height:21px;color:white;}
+.ai-fab-pulse{position:absolute;top:-2px;right:-2px;width:13px;height:13px;background:var(--green);border-radius:50%;border:2px solid white;}
+.ai-panel{position:fixed;bottom:86px;right:26px;width:355px;background:white;border:1px solid var(--border);border-radius:15px;box-shadow:0 20px 60px rgba(26,31,78,0.18);z-index:200;display:none;flex-direction:column;overflow:hidden;max-height:510px;}
+.ai-panel.open{display:flex;}
+.ai-ph{background:var(--navy);padding:13px 15px;display:flex;align-items:center;gap:9px;flex-shrink:0;}
+.ai-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--lav),#a78bfa);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ai-avatar svg{width:13px;height:13px;color:white;}
+.ai-name{font-size:13px;font-weight:700;color:white;}
+.ai-status{font-size:9px;color:rgba(255,255,255,0.5);}
+.ai-close{color:rgba(255,255,255,0.45);cursor:pointer;font-size:18px;line-height:1;margin-left:auto;}
+.ai-close:hover{color:white;}
+.ai-msgs{flex:1;overflow-y:auto;padding:13px;display:flex;flex-direction:column;gap:9px;}
+.ai-msg{max-width:85%;}
+.ai-msg.bot{align-self:flex-start;}
+.ai-msg.user{align-self:flex-end;}
+.ai-bubble{padding:8px 12px;border-radius:11px;font-size:12px;line-height:1.5;}
+.ai-msg.bot .ai-bubble{background:var(--lav-faint);color:var(--txt);border:1px solid var(--border-soft);border-bottom-left-radius:3px;}
+.ai-msg.user .ai-bubble{background:var(--navy);color:white;border-bottom-right-radius:3px;}
+.ai-sugs{padding:5px 13px 9px;display:flex;flex-direction:column;gap:4px;flex-shrink:0;}
+.ai-sug{padding:6px 10px;border:1px solid var(--border-soft);border-radius:7px;font-size:11px;color:var(--navy-mid);cursor:pointer;background:var(--lav-faint);transition:all 0.11s;font-weight:500;}
+.ai-sug:hover{border-color:var(--lav);background:var(--lav-pale);}
+.ai-input-row{padding:9px 11px;border-top:1px solid var(--border-soft);display:flex;gap:7px;align-items:center;flex-shrink:0;}
+.ai-input{flex:1;border:1px solid var(--border);border-radius:7px;padding:6px 10px;font-size:12px;font-family:'DM Sans',sans-serif;outline:none;color:var(--txt);}
+.ai-input:focus{border-color:var(--lav);}
+.ai-send{width:30px;height:30px;border:none;border-radius:7px;background:var(--navy);color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ai-send:hover{background:var(--lav);}
+.ai-send svg{width:13px;height:13px;}
+/* Spot length comparison styles */
+.spot-cmp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
+.spot-cmp-card{border-radius:10px;border:1px solid var(--border);padding:13px;background:white;}
+.spot-cmp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.spot-len-badge{font-size:14px;font-weight:700;color:var(--navy);}
+.spot-cmp-row{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #f3f4f6;font-size:11px;}
+.spot-cmp-row:last-child{border-bottom:none;}
+.scr-lbl{width:70px;color:var(--txt2);flex-shrink:0;}
+.scr-track{flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+.scr-fill{height:100%;border-radius:3px;}
+.scr-val{width:32px;text-align:right;font-weight:600;font-size:11px;flex-shrink:0;}
+/* Mobile Behavior page */
+.mob-timeline-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f3f4f6;font-size:12px;}
+.mob-timeline-row:last-child{border-bottom:none;}
+.tl-time{width:44px;color:var(--txt3);font-family:monospace;flex-shrink:0;font-size:10px;}
+.tl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.tl-txt{flex:1;color:var(--txt2);}
+.tl-pct{font-weight:600;font-size:11px;}
+.app-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #f3f4f6;font-size:12px;}
+.app-row:last-child{border-bottom:none;}
+.app-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.app-name{font-weight:500;color:var(--navy);flex:1;}
+.app-track{width:80px;height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+.app-fill{height:100%;border-radius:3px;background:var(--lav);}
+.app-pct{font-weight:600;color:var(--txt);width:36px;text-align:right;}
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.cat-card{background:var(--lav-faint);border-radius:8px;padding:10px 12px;border:1px solid var(--border-soft);}
+.seg-bar{display:flex;height:22px;border-radius:6px;overflow:hidden;margin-bottom:8px;}
+.seg-part{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:white;}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="sb">
+  <div class="sb-logo">
+    <div class="sb-logo-mark">
+      <div class="sb-logo-icon"><svg viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5" stroke="white" stroke-width="1.5"/><circle cx="8" cy="8" r="2" fill="white"/><line x1="8" y1="1" x2="8" y2="4" stroke="white" stroke-width="1.5"/><line x1="8" y1="12" x2="8" y2="15" stroke="white" stroke-width="1.5"/><line x1="1" y1="8" x2="4" y2="8" stroke="white" stroke-width="1.5"/><line x1="12" y1="8" x2="15" y2="8" stroke="white" stroke-width="1.5"/></svg></div>
+      <div class="sb-logo-text">AdSync</div>
+    </div>
+    <div class="sb-logo-sub">Pro · v9 · Live</div>
+  </div>
+  <nav>
+    <div class="ns">Analytics</div>
+    <div class="ni active" onclick="go('overview',this)"><span class="ni-icon">◉</span>Overview</div>
+    <div class="ni" onclick="go('livesync',this)"><span class="ni-icon">⬤</span>Live Sync<span class="nb nb-live">LIVE</span></div>
+    <div class="ni" onclick="go('campaigns',this)"><span class="ni-icon">◈</span>Campaigns</div>
+    <div class="ni" onclick="go('channels',this)"><span class="ni-icon">◧</span>Channels</div>
+    <div class="ns">Intelligence</div>
+    <div class="ni" onclick="go('mobilebehavior',this)"><span class="ni-icon">◎</span>Mobile Behavior</div>
+    <div class="ni" onclick="go('audience',this)"><span class="ni-icon">◎</span>Audience</div>
+    <div class="ni" onclick="go('alerts',this)"><span class="ni-icon">◉</span>Alerts<span class="nb nb-alert">3</span></div>
+    <div class="ni" onclick="go('experiments',this)"><span class="ni-icon">◇</span>Experiments</div>
+    <div class="ni" onclick="go('spotlength',this)"><span class="ni-icon">◫</span>Spot Length</div>
+    <div class="ni" onclick="go('creative',this)"><span class="ni-icon">◈</span>Creative<span class="nb nb-y2">Y2</span></div>
+    <div class="ni" onclick="go('benchmarking',this)"><span class="ni-icon">◫</span>Benchmarking<span class="nb nb-y2">Y2</span></div>
+    <div class="ns">Planning</div>
+    <div class="ni" onclick="go('mediaplanning',this)"><span class="ni-icon">◱</span>Media Planning<span class="nb nb-y3">Y3</span></div>
+    <div class="ni" onclick="go('exporttab',this)"><span class="ni-icon">↓</span>Export</div>
+  </nav>
+  <div class="sb-foot">
+    <div class="brand-pill">
+      <div class="ba">LS</div>
+      <div><div class="bn">Lumen Sleep Co.</div><div class="bp">Professional Plan</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="topbar">
+    <div class="tb-bread"><span>Lumen Sleep Co.</span>&nbsp;/&nbsp;<strong id="tb-title">Q2 Primetime — Wake Different</strong></div>
+    <div class="tb-search">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="#9ca3af" stroke-width="1.5"/><line x1="10.5" y1="10.5" x2="14" y2="14" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <input type="text" placeholder="Search spots, networks… "><span class="kbd">⌘K</span>
+    </div>
+    <div class="live-b"><div class="live-dot"></div>LIVE · <span id="clk">22:42:27</span> CET</div>
+    <div class="notif-btn" onclick="toggleNotif()">
+      <svg viewBox="0 0 20 20" fill="none"><path d="M10 2a6 6 0 00-6 6c0 3.5-2 5-2 5h16s-2-1.5-2-5a6 6 0 00-6-6z" stroke="currentColor" stroke-width="1.5"/><path d="M11.73 17a2 2 0 01-3.46 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <div class="notif-count">3</div>
+    </div>
+    <button class="btn-share" onclick="alert('Link copied!')">&#x2197; Share</button>
+    <button class="btn-export" onclick="openModal()">&#x2193; Export</button>
+  </div>
+
+  <div class="notif-panel" id="notif-panel">
+    <div class="np-hdr"><div class="np-title">Alerts</div><div class="np-mark" onclick="document.getElementById('notif-panel').classList.remove('open')">Mark all read</div></div>
+    <div class="np-item"><div class="np-dot" style="background:#ef4444"></div><div><div class="np-msg">NPO 1 spot triggered <strong>+6.2x lift</strong> — highest this quarter</div><div class="np-time">2 min ago</div></div></div>
+    <div class="np-item"><div class="np-dot" style="background:#f59e0b"></div><div><div class="np-msg">RTL 5 AARD dropped to <strong>31</strong> — below 40pt threshold</div><div class="np-time">14 min ago</div></div></div>
+    <div class="np-item"><div class="np-dot" style="background:#7b8cde"></div><div><div class="np-msg">Panel sync complete — <strong>847 new households</strong> matched</div><div class="np-time">1h ago</div></div></div>
+  </div>
+
+  <div class="filter-bar show" id="fbar">
+    <div class="tc">
+      <div class="chip active" onclick="setTime(this,'today')">Today</div>
+      <div class="chip" onclick="setTime(this,'7d')">7d</div>
+      <div class="chip" onclick="setTime(this,'28d')">28d</div>
+      <div class="chip" onclick="setTime(this,'flight')">Flight</div>
+    </div>
+    <div class="fsep"></div>
+    <div class="fchip">&#x1F4C5; Apr 18 – May 04 <span style="cursor:pointer;margin-left:3px;color:var(--txt3)">×</span></div>
+    <div class="fchip">Creative: WD-30-A <span style="cursor:pointer;margin-left:3px;color:var(--txt3)">×</span></div>
+    <div class="aud-chip" onclick="toggleAudDrop()" id="aud-chip">
+      ◎ <span id="aud-label">A25–54</span> ▾
+      <div class="aud-drop" id="aud-drop" onclick="event.stopPropagation()">
+        <div class="aud-opt" onclick="selAud('A18–34',this)">A18–34</div>
+        <div class="aud-opt sel" onclick="selAud('A25–54',this)">A25–54</div>
+        <div class="aud-opt" onclick="selAud('A35–64',this)">A35–64</div>
+        <div class="aud-opt" onclick="selAud('All Adults',this)">All Adults</div>
+      </div>
+    </div>
+    <div class="reach-pill"><strong id="r-spots">12 spots</strong> · <span id="r-reach">22.0M</span> reach</div>
+  </div>
+
+  <div class="net-tabs show" id="ntabs">
+    <div class="nt active" onclick="setNet(this,'all')">All <span class="cnt">12</span></div>
+    <div class="nt" onclick="setNet(this,'NPO1')">NPO 1 <span class="cnt">3</span></div>
+    <div class="nt" onclick="setNet(this,'NPO2')">NPO 2 <span class="cnt">2</span></div>
+    <div class="nt" onclick="setNet(this,'RTL4')">RTL 4 <span class="cnt">2</span></div>
+    <div class="nt" onclick="setNet(this,'SBS6')">SBS 6 <span class="cnt">2</span></div>
+    <div class="nt" onclick="setNet(this,'Videoland')">Videoland <span class="cnt">2</span></div>
+    <div class="nt" onclick="setNet(this,'Netflix')">Netflix NL <span class="cnt">1</span></div>
+  </div>
+
+  <div class="content">
+
+    <!-- OVERVIEW -->
+    <div class="pane active" id="pane-overview">
+      <div class="kpi4" id="ov-kpis"></div>
+      <div class="g2">
+        <div class="card" style="margin-bottom:0">
+          <div class="ct">TV Airings <span class="cs" id="ov-sub">visits/sec · 18:00–22:00</span></div>
+          <svg id="airings-svg" viewBox="0 0 380 105" width="100%" height="105" preserveAspectRatio="none"></svg>
+          <div style="display:flex;gap:14px;margin-top:7px;font-size:11px;"><span style="color:var(--lav)">— visits/sec</span><span style="color:var(--navy);opacity:0.45">▮ spot aired</span></div>
+        </div>
+        <div class="card" style="margin-bottom:0">
+          <div class="ct">Mobile Behavior <span class="cs">during spots</span></div>
+          <div style="font-size:22px;font-weight:700;color:var(--red);line-height:1;" id="mob-pct">81%</div>
+          <div style="font-size:11px;color:var(--txt3);margin-bottom:9px;" id="mob-sub">checked phone · r=0.84</div>
+          <svg id="mob-svg" viewBox="0 0 340 72" width="100%" height="72" preserveAspectRatio="none"></svg>
+          <div style="display:flex;gap:12px;margin-top:7px;">
+            <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--txt2)"><span style="width:8px;height:8px;border-radius:2px;background:#ef4444;display:inline-block"></span>Phone</span>
+            <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--txt2)"><span style="width:8px;height:8px;border-radius:2px;background:#f59e0b;display:inline-block"></span>Skipped</span>
+            <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--txt2)"><span style="width:8px;height:8px;border-radius:2px;background:#10b981;display:inline-block"></span>Watched</span>
+          </div>
+        </div>
+      </div>
+      <div style="height:14px"></div>
+      <div class="sap">
+        <div class="sap-hdr"><span class="sap-label">Selected airing</span><div style="display:flex;align-items:center;gap:9px;"><span style="font-size:11px;color:var(--txt3)">Click any bar to inspect</span><button class="btn-open">&#x2197; Open spot</button></div></div>
+        <div class="sap-body">
+          <div class="sap-thumb">WD-30-A</div>
+          <div class="sap-info">
+            <div class="sap-meta-row"><span class="sap-cid">WD-30-A</span><span class="tag tl">LIFTED</span><span style="font-size:11px;color:var(--txt3)">20:58 · NPO 1 — DWDD</span></div>
+            <div class="sap-name">"Wake Different" · 30s spot</div>
+            <div class="sap-reach">1.53M households reached</div>
+          </div>
+          <svg viewBox="0 0 96 34" width="96" height="34" style="flex-shrink:0"><defs><linearGradient id="spg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7b8cde" stop-opacity="0.28"/><stop offset="100%" stop-color="#7b8cde" stop-opacity="0"/></linearGradient></defs><polygon points="0,32 10,32 20,30 30,18 40,9 50,5 60,7 70,13 80,19 90,25 96,29 96,32" fill="url(#spg)"/><polyline points="0,32 10,32 20,30 30,18 40,9 50,5 60,7 70,13 80,19 90,25 96,29" fill="none" stroke="#7b8cde" stroke-width="2"/></svg>
+          <div class="sap-mets">
+            <div class="sap-met"><div class="pm-lbl">Lift</div><div class="pm-val" style="color:var(--green)">+6.2×</div></div>
+            <div class="sap-met"><div class="pm-lbl">Visits</div><div class="pm-val">11,858</div></div>
+            <div class="sap-met"><div class="pm-lbl">Lag</div><div class="pm-val">87s</div></div>
+            <div class="sap-met"><div class="pm-lbl">CPM</div><div class="pm-val">€39</div></div>
+            <div class="sap-met"><div class="pm-lbl">Cost/imp</div><div class="pm-val" style="color:var(--lav)">€5.03</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card"><div class="ct">Recent Airings <span class="cs" id="al-netlabel"></span></div><div id="airing-list"></div></div>
+    </div>
+
+    <!-- LIVE SYNC -->
+    <div class="pane" id="pane-livesync">
+      <div class="kpi4">
+        <div class="kc"><div class="kl">Currently Airing</div><div class="kv" style="color:var(--red)" id="ls-net">NPO 1</div><div class="kd dn">● Primetime now</div></div>
+        <div class="kc"><div class="kl">Live Lift</div><div class="kv up" id="live-lift">5.8×</div><div class="kd up">Building…</div></div>
+        <div class="kc"><div class="kl">Live AARD</div><div class="kv" style="color:var(--lav)" id="live-aard">79</div><div class="kd up">Updating live</div></div>
+        <div class="kc"><div class="kl">Visits / 60s</div><div class="kv" id="live-vis">342</div><div class="kd up">↑ vs baseline</div></div>
+      </div>
+      <div class="card"><div class="ct">Live Feed <span class="cs" style="color:var(--red)">● updating</span></div><div id="live-feed"></div></div>
+      <div class="card">
+        <div class="ct">Signal Breakdown — <span id="ls-netlabel" style="color:var(--lav)">NPO 1 Primetime</span></div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:6px 0;text-align:center;">
+          <div><div style="font-size:28px;font-weight:700;color:var(--green)" id="ls-mob">68%</div><div style="font-size:11px;color:var(--txt3);margin-top:3px">Mobile active</div></div>
+          <div><div style="font-size:28px;font-weight:700;color:var(--lav)" id="ls-aard2">79</div><div style="font-size:11px;color:var(--txt3);margin-top:3px">AARD score</div></div>
+          <div><div style="font-size:28px;font-weight:700;color:var(--navy)" id="ls-reach">2.1M</div><div style="font-size:11px;color:var(--txt3);margin-top:3px">Households</div></div>
+          <div><div style="font-size:28px;font-weight:700;color:var(--amber)">:30s</div><div style="font-size:11px;color:var(--txt3);margin-top:3px">Spot length</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CAMPAIGNS -->
+    <div class="pane" id="pane-campaigns">
+      <div class="kpi4" id="camp-kpis"></div>
+      <div class="g2">
+        <div class="card" style="margin-bottom:0"><div class="ct">Lift Trend <span class="cs" id="camp-trendlbl">8-week</span></div><svg id="camp-svg" viewBox="0 0 290 92" width="100%" height="92" preserveAspectRatio="none"></svg></div>
+        <div class="card" style="margin-bottom:0"><div class="ct">AARD by Daypart</div><div id="daypart-bars"></div></div>
+      </div>
+      <div style="height:12px"></div>
+      <div class="card"><div class="ct">Campaign Flights <span class="cs" id="camp-netlabel"></span></div><table class="cht" id="flights-table"></table></div>
+    </div>
+
+    <!-- CHANNELS -->
+    <div class="pane" id="pane-channels">
+      <div class="g2">
+        <div class="card" style="margin-bottom:0"><div class="ct">Network Performance <span class="cs" id="ch-timelabel"></span></div><table class="cht" id="ch-table"></table></div>
+        <div class="card" style="margin-bottom:0"><div class="ct">Daypart AARD</div><div id="ch-daypart"></div></div>
+      </div>
+      <div style="height:12px"></div>
+      <div class="card">
+        <div class="ct">Budget Recommendation</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px">
+          <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:9px;padding:13px"><div style="font-size:10px;font-weight:700;color:#166534;margin-bottom:5px">↑ INCREASE SPEND</div><div style="font-size:13px;font-weight:600;color:var(--navy)">NPO 1 Primetime (8–10 PM)</div><div style="font-size:11px;color:var(--txt3);margin-top:3px">AARD 84 · Lift 6.2× · Score 94/100</div></div>
+          <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:9px;padding:13px"><div style="font-size:10px;font-weight:700;color:#991b1b;margin-bottom:5px">↓ REDUCE SPEND</div><div style="font-size:13px;font-weight:600;color:var(--navy)">RTL 5 Daytime (10 AM–2 PM)</div><div style="font-size:11px;color:var(--txt3);margin-top:3px">AARD 31 · Lift 0.9× · Score 18/100</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOBILE BEHAVIOR -->
+    <div class="pane" id="pane-mobilebehavior">
+      <div class="kpi4">
+        <div class="kc"><div class="kl">Phone check rate</div><div class="kv" style="color:var(--red)">81%</div><div class="kd dn">↑ 3pp vs Q1</div></div>
+        <div class="kc"><div class="kl">Avg response lag</div><div class="kv">87s</div><div class="kd nu">post-spot action</div></div>
+        <div class="kc"><div class="kl">Correlation r</div><div class="kv" style="color:var(--lav)">0.84</div><div class="kd up">strong signal</div></div>
+        <div class="kc"><div class="kl">Watched full ad</div><div class="kv" style="color:var(--green)">9%</div><div class="kd dn">↓ 1pp vs Q1</div></div>
+      </div>
+      <div class="g2">
+        <div class="card" style="margin-bottom:0">
+          <div class="ct">Behaviour during spots <span class="cs">by channel</span></div>
+          <div class="seg-bar"><div class="seg-part" style="width:81%;background:#ef4444">81% Phone</div><div class="seg-part" style="width:10%;background:#f59e0b">10%</div><div class="seg-part" style="width:9%;background:#10b981">9%</div></div>
+          <div style="display:flex;gap:12px;margin-bottom:12px;font-size:10px;">
+            <span style="display:flex;align-items:center;gap:4px;color:var(--txt2)"><span style="width:8px;height:8px;border-radius:2px;background:#ef4444;display:inline-block"></span>Picked up phone</span>
+            <span style="display:flex;align-items:center;gap:4px;color:var(--txt2)"><span style="width:8px;height:8px;border-radius:2px;background:#f59e0b;display:inline-block"></span>Skipped</span>
+            <span style="display:flex;align-items:center;gap:4px;color:var(--txt2)"><span style="width:8px;height:8px;border-radius:2px;background:#10b981;display:inline-block"></span>Watched fully</span>
+          </div>
+          <div class="aud-brow"><div class="aud-lbl">NPO 1</div><div class="aud-track"><div class="aud-fill" style="width:84%;background:#ef4444"></div></div><div class="aud-val" style="color:#ef4444">84%</div></div>
+          <div class="aud-brow"><div class="aud-lbl">RTL 4</div><div class="aud-track"><div class="aud-fill" style="width:81%;background:#ef4444"></div></div><div class="aud-val" style="color:#ef4444">81%</div></div>
+          <div class="aud-brow"><div class="aud-lbl">SBS 6</div><div class="aud-track"><div class="aud-fill" style="width:79%;background:#f59e0b"></div></div><div class="aud-val" style="color:#f59e0b">79%</div></div>
+          <div class="aud-brow"><div class="aud-lbl">NPO 2</div><div class="aud-track"><div class="aud-fill" style="width:76%;background:#f59e0b"></div></div><div class="aud-val" style="color:#f59e0b">76%</div></div>
+          <div class="aud-brow"><div class="aud-lbl">Videoland</div><div class="aud-track"><div class="aud-fill" style="width:71%;background:#7b8cde"></div></div><div class="aud-val" style="color:#7b8cde">71%</div></div>
+          <div class="aud-brow"><div class="aud-lbl">Netflix NL</div><div class="aud-track"><div class="aud-fill" style="width:58%;background:#7b8cde"></div></div><div class="aud-val" style="color:#7b8cde">58%</div></div>
+          <div class="aud-brow"><div class="aud-lbl">Disney+</div><div class="aud-track"><div class="aud-fill" style="width:52%;background:#a5b0ea"></div></div><div class="aud-val" style="color:#a5b0ea">52%</div></div>
+        </div>
+        <div class="card" style="margin-bottom:0">
+          <div class="ct">Apps opened after spot <span class="cs">within 90s</span></div>
+          <div class="app-row"><div class="app-icon" style="background:var(--lav-pale)">🌐</div><div class="app-name">lumen-sleep.nl</div><div class="app-track"><div class="app-fill" style="width:100%"></div></div><div class="app-pct">34%</div></div>
+          <div class="app-row"><div class="app-icon" style="background:#fff0f5">📷</div><div class="app-name">Instagram</div><div class="app-track"><div class="app-fill" style="width:68%;background:#e1306c"></div></div><div class="app-pct">23%</div></div>
+          <div class="app-row"><div class="app-icon" style="background:#f0f9ff">🔍</div><div class="app-name">Google Search</div><div class="app-track"><div class="app-fill" style="width:56%;background:#4285f4"></div></div><div class="app-pct">19%</div></div>
+          <div class="app-row"><div class="app-icon" style="background:#fff8ee">🛒</div><div class="app-name">bol.com</div><div class="app-track"><div class="app-fill" style="width:38%;background:#f59e0b"></div></div><div class="app-pct">13%</div></div>
+          <div class="app-row"><div class="app-icon" style="background:#f0fff4">💬</div><div class="app-name">WhatsApp</div><div class="app-track"><div class="app-fill" style="width:21%;background:#10b981"></div></div><div class="app-pct">7%</div></div>
+          <div class="app-row"><div class="app-icon" style="background:#f5f0ff">🎵</div><div class="app-name">Spotify</div><div class="app-track"><div class="app-fill" style="width:12%;background:#a78bfa"></div></div><div class="app-pct">4%</div></div>
+        </div>
+      </div>
+      <div style="height:12px"></div>
+      <div class="g2">
+        <div class="card" style="margin-bottom:0">
+          <div class="ct">Ad categories seen by panel</div>
+          <div class="cat-grid">
+            <div class="cat-card"><div style="font-size:11px;font-weight:600;color:var(--navy);margin-bottom:4px">Sleep &amp; Wellness</div><div style="font-size:20px;font-weight:700;color:var(--lav)">38%</div><div style="font-size:10px;color:var(--txt3);margin-top:2px">AARD avg 84</div></div>
+            <div class="cat-card"><div style="font-size:11px;font-weight:600;color:var(--navy);margin-bottom:4px">FMCG / Food</div><div style="font-size:20px;font-weight:700;color:var(--navy)">24%</div><div style="font-size:10px;color:var(--txt3);margin-top:2px">AARD avg 71</div></div>
+            <div class="cat-card"><div style="font-size:11px;font-weight:600;color:var(--navy);margin-bottom:4px">Auto &amp; Mobility</div><div style="font-size:20px;font-weight:700;color:var(--amber)">18%</div><div style="font-size:10px;color:var(--txt3);margin-top:2px">AARD avg 65</div></div>
+            <div class="cat-card"><div style="font-size:11px;font-weight:600;color:var(--navy);margin-bottom:4px">Retail &amp; Fashion</div><div style="font-size:20px;font-weight:700;color:var(--red)">12%</div><div style="font-size:10px;color:var(--txt3);margin-top:2px">AARD avg 48</div></div>
+            <div class="cat-card"><div style="font-size:11px;font-weight:600;color:var(--navy);margin-bottom:4px">Financial</div><div style="font-size:20px;font-weight:700;color:var(--txt2)">5%</div><div style="font-size:10px;color:var(--txt3);margin-top:2px">AARD avg 52</div></div>
+            <div class="cat-card"><div style="font-size:11px;font-weight:600;color:var(--navy);margin-bottom:4px">Other</div><div style="font-size:20px;font-weight:700;color:var(--txt3)">3%</div><div style="font-size:10px;color:var(--txt3);margin-top:2px">AARD avg 44</div></div>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:0">
+          <div class="ct">Behaviour timeline <span class="cs">seconds after spot end</span></div>
+          <div class="mob-timeline-row"><div class="tl-time">0–3s</div><div class="tl-dot" style="background:#ef4444"></div><div class="tl-txt">Phone picked up — <strong>81%</strong> of panel</div><div class="tl-pct" style="color:#ef4444"></div></div>
+          <div class="mob-timeline-row"><div class="tl-time">3–15s</div><div class="tl-dot" style="background:#f59e0b"></div><div class="tl-txt">App opened or search query typed</div><div class="tl-pct" style="color:#f59e0b">62%</div></div>
+          <div class="mob-timeline-row"><div class="tl-time">15–30s</div><div class="tl-dot" style="background:#7b8cde"></div><div class="tl-txt">Website visited (direct or via Google)</div><div class="tl-pct" style="color:#7b8cde">41%</div></div>
+          <div class="mob-timeline-row"><div class="tl-time">30–60s</div><div class="tl-dot" style="background:#10b981"></div><div class="tl-txt">Product page opened on lumen-sleep.nl</div><div class="tl-pct" style="color:#10b981">34%</div></div>
+          <div class="mob-timeline-row"><div class="tl-time">60–90s</div><div class="tl-dot" style="background:#a5b0ea"></div><div class="tl-txt">Cart or purchase started</div><div class="tl-pct" style="color:#a5b0ea">8%</div></div>
+          <div class="mob-timeline-row"><div class="tl-time">&gt;90s</div><div class="tl-dot" style="background:#d1d5db"></div><div class="tl-txt">Signal lost / other activity</div><div class="tl-pct" style="color:var(--txt3)"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AUDIENCE -->
+    <div class="pane" id="pane-audience">
+      <div class="kpi4">
+        <div class="kc"><div class="kl">Panel Size</div><div class="kv">847K</div><div class="kd up">↑ 12% vs last month</div></div>
+        <div class="kc"><div class="kl">Avg Age</div><div class="kv">38</div><div class="kd nu">A25–54 dominant</div></div>
+        <div class="kc"><div class="kl">Mobile %</div><div class="kv" style="color:var(--lav)">81%</div><div class="kd up">↑ 3pp vs Q1</div></div>
+        <div class="kc"><div class="kl">GDPR Consent</div><div class="kv" style="color:var(--green)">94%</div><div class="kd up">Within target</div></div>
+      </div>
+      <div class="aud-seg">
+        <div class="aud-card">
+          <div class="ct" style="margin-bottom:10px">Age segments <span class="cs">% of panel</span></div>
+          <div class="aud-brow"><div class="aud-lbl">A18–24</div><div class="aud-track"><div class="aud-fill" style="width:12%;background:#a5b0ea"></div></div><div class="aud-val">12%</div></div>
+          <div class="aud-brow"><div class="aud-lbl">A25–34</div><div class="aud-track"><div class="aud-fill" style="width:28%;background:#7b8cde"></div></div><div class="aud-val">28%</div></div>
+          <div class="aud-brow"><div class="aud-lbl">A35–44</div><div class="aud-track"><div class="aud-fill" style="width:31%;background:#2b3278"></div></div><div class="aud-val">31%</div></div>
+          <div class="aud-brow"><div class="aud-lbl">A45–54</div><div class="aud-track"><div class="aud-fill" style="width:19%;background:#1a1f4e"></div></div><div class="aud-val">19%</div></div>
+          <div class="aud-brow"><div class="aud-lbl">A55+</div><div class="aud-track"><div class="aud-fill" style="width:10%;background:#e2e5f5"></div></div><div class="aud-val">10%</div></div>
+        </div>
+        <div class="aud-card">
+          <div class="ct" style="margin-bottom:10px">Device split <span class="cs">% of panel</span></div>
+          <div class="aud-brow"><div class="aud-lbl">Smartphone</div><div class="aud-track"><div class="aud-fill" style="width:81%;background:#7b8cde"></div></div><div class="aud-val">81%</div></div>
+          <div class="aud-brow"><div class="aud-lbl">Smart TV</div><div class="aud-track"><div class="aud-fill" style="width:62%;background:#2b3278"></div></div><div class="aud-val">62%</div></div>
+          <div class="aud-brow"><div class="aud-lbl">Tablet</div><div class="aud-track"><div class="aud-fill" style="width:24%;background:#a5b0ea"></div></div><div class="aud-val">24%</div></div>
+          <div class="aud-brow"><div class="aud-lbl">Desktop</div><div class="aud-track"><div class="aud-fill" style="width:41%;background:#c7d0f4"></div></div><div class="aud-val">41%</div></div>
+        </div>
+        <div class="aud-card">
+          <div class="ct" style="margin-bottom:10px">GDPR &amp; Consent <span class="cs">NL · Art. 7</span></div>
+          <div style="margin-bottom:9px"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span style="color:var(--txt2)">Opted in</span><span style="font-weight:600;color:var(--green)">94%</span></div><div class="aud-track" style="height:8px"><div class="aud-fill" style="width:94%;background:var(--green);height:100%"></div></div></div>
+          <div style="margin-bottom:9px"><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span style="color:var(--txt2)">Withdrawn</span><span style="font-weight:600;color:var(--amber)">4%</span></div><div class="aud-track" style="height:8px"><div class="aud-fill" style="width:4%;background:var(--amber);height:100%"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px"><span style="color:var(--txt2)">Pending</span><span style="font-weight:600;color:var(--txt3)">2%</span></div><div class="aud-track" style="height:8px"><div class="aud-fill" style="width:2%;background:#d1d5db;height:100%"></div></div></div>
+          <div style="margin-top:9px;font-size:10px;color:var(--txt3);padding:6px 8px;background:#f0fdf4;border-radius:5px;border:1px solid #bbf7d0">✓ Last DPA audit passed — 14 Apr 2026</div>
+        </div>
+        <div class="aud-card">
+          <div class="ct" style="margin-bottom:10px">Second-screen lag <span class="cs">by network</span></div>
+          <div class="aud-brow"><div class="aud-lbl">NPO 1</div><div class="aud-track"><div class="aud-fill" style="width:87%;background:#1a1f4e"></div></div><div class="aud-val">87s</div></div>
+          <div class="aud-brow"><div class="aud-lbl">RTL 4</div><div class="aud-track"><div class="aud-fill" style="width:79%;background:#2b3278"></div></div><div class="aud-val">79s</div></div>
+          <div class="aud-brow"><div class="aud-lbl">SBS 6</div><div class="aud-track"><div class="aud-fill" style="width:71%;background:#7b8cde"></div></div><div class="aud-val">71s</div></div>
+          <div class="aud-brow"><div class="aud-lbl">Videoland</div><div class="aud-track"><div class="aud-fill" style="width:52%;background:#a5b0ea"></div></div><div class="aud-val">52s</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALERTS -->
+    <div class="pane" id="pane-alerts">
+      <div class="kpi4">
+        <div class="kc"><div class="kl">Active Alerts</div><div class="kv" style="color:var(--red)">3</div><div class="kd dn">2 unread</div></div>
+        <div class="kc"><div class="kl">GDPR Alerts</div><div class="kv">1</div><div class="kd nu">Compliance</div></div>
+        <div class="kc"><div class="kl">Threshold Hits</div><div class="kv" style="color:var(--amber)">2</div><div class="kd nu">This week</div></div>
+        <div class="kc"><div class="kl">Resolved (7d)</div><div class="kv" style="color:var(--green)">8</div><div class="kd up">All cleared</div></div>
+      </div>
+      <div class="card">
+        <div class="ct">Active Alerts</div>
+        <div class="alert-item"><div class="adot" style="background:var(--green)"></div><div style="flex:1"><div class="a-title">NPO 1 Primetime lift exceeded target</div><div class="a-desc">+6.2x lift — 2.2x above quarterly target of 4.0x. Consider budget reallocation to NPO 1.</div><div class="a-time">2 min ago</div></div><span class="abadge" style="background:#dcfce7;color:#166534">Positive</span></div>
+        <div class="alert-item"><div class="adot" style="background:var(--amber)"></div><div style="flex:1"><div class="a-title">RTL 5 Daytime AARD below threshold</div><div class="a-desc">AARD 31 is below the 40pt minimum floor for active flights. Recommend pause or creative refresh.</div><div class="a-time">14 min ago</div></div><span class="abadge" style="background:#fef3c7;color:#92400e">Warning</span></div>
+        <div class="alert-item"><div class="adot" style="background:var(--lav)"></div><div style="flex:1"><div class="a-title">GDPR consent withdrawal spike — NL panel</div><div class="a-desc">4.1% withdrawal rate — above 3% alert threshold. Monitor per GDPR Art. 7. Legal notified.</div><div class="a-time">1h ago</div></div><span class="abadge" style="background:var(--lav-pale);color:var(--navy-mid)">Compliance</span></div>
+      </div>
+    </div>
+
+    <!-- EXPERIMENTS -->
+    <div class="pane" id="pane-experiments">
+      <div class="kpi4">
+        <div class="kc"><div class="kl">Active Tests</div><div class="kv">3</div><div class="kd nu">2 running · 1 paused</div></div>
+        <div class="kc"><div class="kl">Concluded (30d)</div><div class="kv">5</div><div class="kd up">4 with clear winner</div></div>
+        <div class="kc"><div class="kl">Avg Lift Delta</div><div class="kv" style="color:var(--green)">+1.4×</div><div class="kd up">Winner vs control</div></div>
+        <div class="kc"><div class="kl">Spend in Tests</div><div class="kv">€180k</div><div class="kd nu">8.6% of budget</div></div>
+      </div>
+      <div class="card">
+        <div class="ct">Running Experiments</div>
+        <div class="exp-card"><div style="flex:1"><div style="display:flex;align-items:center;gap:7px;margin-bottom:4px"><span style="font-size:13px;font-weight:600;color:var(--navy)">Spot length: :30s vs :15s</span><span class="tag ta">Running</span></div><div style="font-size:11px;color:var(--txt2);margin-bottom:6px">NPO 1 Primetime · 14 days · n=2,400 HH</div><div style="display:flex;gap:7px;flex-wrap:wrap"><span class="var-chip" style="background:var(--lav-pale);color:var(--navy-mid)">:30s — Lift 6.2×</span><span class="var-chip" style="background:#f3f4f6;color:var(--txt2)">:15s — Lift 4.1×</span></div></div><div style="text-align:right;flex-shrink:0;margin-left:12px"><div style="font-size:20px;font-weight:700;color:var(--green)">+2.1×</div><div style="font-size:10px;color:var(--txt3)">lift delta</div><div style="font-size:10px;color:var(--green);margin-top:2px">95% conf.</div></div></div>
+        <div class="exp-card"><div style="flex:1"><div style="display:flex;align-items:center;gap:7px;margin-bottom:4px"><span style="font-size:13px;font-weight:600;color:var(--navy)">CTA timing: 22s vs 8s vs end</span><span class="tag ta">Running</span></div><div style="font-size:11px;color:var(--txt2);margin-bottom:6px">Videoland · 10 days · n=1,800 HH</div><div style="display:flex;gap:7px;flex-wrap:wrap"><span class="var-chip" style="background:var(--lav-pale);color:var(--navy-mid)">@22s — +32% CVR</span><span class="var-chip" style="background:#f3f4f6;color:var(--txt2)">@8s — +18%</span><span class="var-chip" style="background:#f3f4f6;color:var(--txt2)">End — +11%</span></div></div><div style="text-align:right;flex-shrink:0;margin-left:12px"><div style="font-size:20px;font-weight:700;color:var(--lav)">+21pp</div><div style="font-size:10px;color:var(--txt3)">CVR delta</div><div style="font-size:10px;color:var(--amber);margin-top:2px">82% conf.</div></div></div>
+      </div>
+    </div>
+
+    <!-- SPOT LENGTH COMPARISON -->
+    <div class="pane" id="pane-spotlength">
+      <div class="kpi4">
+        <div class="kc"><div class="kl">Best performing</div><div class="kv">:30s</div><div class="kd up">Linear TV &amp; Streaming</div></div>
+        <div class="kc"><div class="kl">Lift delta :30s vs :15s</div><div class="kv" style="color:var(--green)">+2.1×</div><div class="kd up">Across all channels</div></div>
+        <div class="kc"><div class="kl">Streaming advantage</div><div class="kv" style="color:var(--lav)">+18%</div><div class="kd up">Higher AARD vs linear</div></div>
+        <div class="kc"><div class="kl">Optimal for streaming</div><div class="kv">:15s</div><div class="kd nu">Cost-efficiency wins</div></div>
+      </div>
+      <div class="card">
+        <div class="ct">Spot length comparison by channel type</div>
+        <div class="spot-cmp-grid">
+          <div class="spot-cmp-card">
+            <div class="spot-cmp-header"><div class="spot-len-badge">:15s</div><span class="tag tf">Economy</span></div>
+            <div style="font-size:11px;color:var(--txt3);margin-bottom:10px">30-second attention window</div>
+            <div class="spot-cmp-row"><div class="scr-lbl">NPO 1</div><div class="scr-track"><div class="scr-fill" style="width:68%;background:#1a1f4e"></div></div><div class="scr-val">4.1×</div></div>
+            <div class="spot-cmp-row"><div class="scr-lbl">RTL 4</div><div class="scr-track"><div class="scr-fill" style="width:60%;background:#1a1f4e"></div></div><div class="scr-val">3.7×</div></div>
+            <div class="spot-cmp-row"><div class="scr-lbl">SBS 6</div><div class="scr-track"><div class="scr-fill" style="width:54%;background:#1a1f4e"></div></div><div class="scr-val">3.2×</div></div>
+            <div class="spot-cmp-row"><div class="scr-lbl">Videoland</div><div class="scr-track"><div class="scr-fill" style="width:72%;background:var(--lav)"></div></div><div class="scr-val">4.4×</div></div>
+            <div class="spot-cmp-row"><div class="scr-lbl">Netflix NL</div><div class="scr-track"><div class="scr-fill" style="width:65%;background:var(--lav)"></div></div><div class="scr-val">4.0×</div></div>
+            <div style="margin-top:10px;padding-top:10px;border-top:1px solid #f3f4f6;font-size:11px;color:var(--txt2)">Avg CPM: <strong>€22</strong> · AARD avg: <strong style="color:var(--amber)">61</strong></div>
+          </div>
+          <div class="spot-cmp-card" style="border-color:var(--lav);border-width:2px">
+            <div class="spot-cmp-header"><div class="spot-len-badge">:30s</div><span class="tag tl">Recommended</span></div>
+            <div style="font-size:11px;color:var(--txt3);margin-bottom:10px">Best lift-to-cost ratio</div>
+            <div class="spot-cmp-row"><div class="scr-lbl">NPO 1</div><div class="scr-track"><div class="scr-fill" style="width:100%;background:#1a1f4e"></div></div><div class="scr-val">6.2×</div></div>
+            <div class="spot-cmp-row"><div class="scr-lbl">RTL 4</div><div class="scr-track"><div class="scr-fill" style="width:88%;background:#1a1f4e"></div></div><div class="scr-val">5.4×</div></div>
+            <div class="spot-cmp-row"><div class="scr-lbl">SBS 6</div><div class="scr-track"><div class="scr-fill" style="width:78%;background:#1a1f4e"></div></div><div class="scr-val">4.8×</div></div>
+            <div class="spot-cmp-row"><div class="scr-lbl">Videoland</div><div class="scr-track"><div class="scr-fill" style="width:95%;background:var(--lav)"></div></div><div class="scr-val">5.9×</div></div>
+            <div class="spot-cmp-row"><div class="scr-lbl">Netflix NL</div><div class="scr-track"><div class="scr-fill" style="width:85%;background:var(--lav)"></div></div><div class="scr-val">5.2×</div></div>
+            <div style="margin-top:10px;padding-top:10px;border-top:1px solid #f3f4f6;font-size:11px;color:var(--txt2)">Avg CPM: <strong>€39</strong> · AARD avg: <strong style="color:var(--green)">84</strong></div>
+          </div>
+          <div class="spot-cmp-card">
+            <div class="spot-cmp-header"><div class="spot-len-badge">:45s</div><span class="tag ts">Premium</span></div>
+            <div style="font-size:11px;color:var(--txt3);margin-bottom:10px">High attention, high cost</div>
+            <div class="spot-cmp-row"><div class="scr-lbl">NPO 1</div><div class="scr-track"><div class="scr-fill" style="width:90%;background:#1a1f4e"></div></div><div class="scr-val">5.9×</div></div>
+            <div class="spot-cmp-row"><div class="scr-lbl">RTL 4</div><div class="scr-track"><div class="scr-fill" style="width:82%;background:#1a1f4e"></div></div><div class="scr-val">5.1×</div></div>
+            <div class="spot-cmp-row"><div class="scr-lbl">SBS 6</div><div class="scr-track"><div class="scr-fill" style="width:75%;background:#1a1f4e"></div></div><div class="scr-val">4.6×</div></div>
+            <div class="spot-cmp-row"><div class="scr-lbl">Videoland</div><div class="scr-track"><div class="scr-fill" style="width:98%;background:var(--lav)"></div></div><div class="scr-val">6.1×</div></div>
+            <div class="spot-cmp-row"><div class="scr-lbl">Netflix NL</div><div class="scr-track"><div class="scr-fill" style="width:90%;background:var(--lav)"></div></div><div class="scr-val">5.6×</div></div>
+            <div style="margin-top:10px;padding-top:10px;border-top:1px solid #f3f4f6;font-size:11px;color:var(--txt2)">Avg CPM: <strong>€58</strong> · AARD avg: <strong style="color:var(--lav)">79</strong></div>
+          </div>
+        </div>
+        <div style="background:var(--lav-faint);border:1px solid var(--border-soft);border-radius:9px;padding:13px;margin-top:4px">
+          <div style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:5px">Key finding</div>
+          <div style="font-size:12px;color:var(--txt2);line-height:1.6">Streaming platforms (Videoland, Netflix NL) show <strong>18% higher AARD</strong> vs linear TV for :30s spots — likely due to forced-view ad formats. For :15s, streaming holds a <strong>cost-efficiency advantage</strong>: CPM €22 with nearly equivalent AARD to linear. Recommend :30s for NPO 1 / RTL 4 primetime and :15s for streaming top-of-funnel.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CREATIVE -->
+    <div class="pane" id="pane-creative">
+      <div class="kpi4">
+        <div class="kc"><div class="kl">Best Length</div><div class="kv">:30s</div><div class="kd up">+28% lift vs :15s</div></div>
+        <div class="kc"><div class="kl">Optimal CTA</div><div class="kv">22s</div><div class="kd up">Highest CVR window</div></div>
+        <div class="kc"><div class="kl">Top Tone</div><div class="kv" style="font-size:17px;line-height:1.3">Aspirational</div><div class="kd up">+41% AARD</div></div>
+        <div class="kc"><div class="kl">Best Hook</div><div class="kv" style="font-size:19px;line-height:1.3">Problem</div><div class="kd up">78% retention</div></div>
+      </div>
+      <div class="card">
+        <div class="ct">Top Creative Insights</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;gap:8px;padding:9px 11px;background:var(--lav-faint);border-radius:8px;border:1px solid var(--border-soft);font-size:12px;color:#374151"><span style="color:var(--lav);font-weight:600;flex-shrink:0">↑</span>Product demo in first 5s: +34% AARD</div>
+          <div style="display:flex;gap:8px;padding:9px 11px;background:var(--lav-faint);border-radius:8px;border:1px solid var(--border-soft);font-size:12px;color:#374151"><span style="color:var(--green);font-weight:600;flex-shrink:0">→</span>Calm background music: +22% lift vs upbeat</div>
+          <div style="display:flex;gap:8px;padding:9px 11px;background:var(--lav-faint);border-radius:8px;border:1px solid var(--border-soft);font-size:12px;color:#374151"><span style="color:var(--amber);font-weight:600;flex-shrink:0">★</span>:30s consistently outperforms :15s on linear TV</div>
+          <div style="display:flex;gap:8px;padding:9px 11px;background:var(--lav-faint);border-radius:8px;border:1px solid var(--border-soft);font-size:12px;color:#374151"><span style="color:var(--lav);font-weight:600;flex-shrink:0">●</span>Female VO: +18% lift in A25–44 segment</div>
+        </div>
+      </div>
+      <div class="coming"><div class="coming-badge">✦ Coming Y2 — Full Creative Intelligence</div></div>
+    </div>
+
+    <!-- BENCHMARKING -->
+    <div class="pane" id="pane-benchmarking">
+      <div class="kpi4">
+        <div class="kc"><div class="kl">Your AARD</div><div class="kv" style="color:var(--lav)">76</div><div class="kd up">↑ 15pts above avg</div></div>
+        <div class="kc"><div class="kl">Category Avg</div><div class="kv">61</div><div class="kd nu">Health &amp; Wellness</div></div>
+        <div class="kc"><div class="kl">Your Lift</div><div class="kv" style="color:var(--green)">5.4×</div><div class="kd up">Top 12% of category</div></div>
+        <div class="kc"><div class="kl">Category Avg Lift</div><div class="kv">2.8×</div><div class="kd nu">H&amp;W · NL</div></div>
+      </div>
+      <div class="card"><div class="ct">AARD Benchmark <span class="cs">n=7 brands · anonymised</span></div><div id="bench-aard"></div></div>
+      <div class="card"><div class="ct">Lift Benchmark <span class="cs">n=7 brands · anonymised</span></div><div id="bench-lift"></div></div>
+      <div class="coming"><div class="coming-badge">✦ Coming Y2 — Cross-category benchmarking</div></div>
+    </div>
+
+    <!-- MEDIA PLANNING -->
+    <div class="pane" id="pane-mediaplanning">
+      <div class="kpi4">
+        <div class="kc"><div class="kl">Recommended Budget</div><div class="kv">€2.4M</div><div class="kd up">↑ €300k reallocation</div></div>
+        <div class="kc"><div class="kl">Projected Lift</div><div class="kv" style="color:var(--green)">7.1×</div><div class="kd up">vs 5.4× current</div></div>
+        <div class="kc"><div class="kl">Predicted AARD</div><div class="kv" style="color:var(--lav)">81</div><div class="kd up">↑ 5pts</div></div>
+        <div class="kc"><div class="kl">Cost/Lift Event</div><div class="kv">€38</div><div class="kd up">↓ €6 vs current</div></div>
+      </div>
+      <div class="card"><div style="font-size:13px;font-weight:600;color:var(--txt);margin-bottom:5px">Current Allocation</div><div class="bud-bar" id="cur-bar"></div><div class="leg" id="cur-leg"></div></div>
+      <div class="card"><div style="font-size:13px;font-weight:600;color:var(--txt);margin-bottom:5px">Recommended <span style="font-size:11px;color:var(--green);font-weight:400;margin-left:7px">↑ +31% lift efficiency</span></div><div class="bud-bar" id="rec-bar"></div><div class="leg" id="rec-leg"></div></div>
+      <div class="coming"><div class="coming-badge">✦ Coming Y3 — AI-powered planning</div></div>
+    </div>
+
+    <!-- EXPORT -->
+    <div class="pane" id="pane-exporttab">
+      <div class="kpi4">
+        <div class="kc"><div class="kl">Reports This Month</div><div class="kv">14</div><div class="kd nu">4 scheduled</div></div>
+        <div class="kc"><div class="kl">Last Export</div><div class="kv" style="font-size:17px">2h ago</div><div class="kd nu">PDF · 2.4MB</div></div>
+        <div class="kc"><div class="kl">Storage Used</div><div class="kv">1.2GB</div><div class="kd nu">of 10GB</div></div>
+        <div class="kc"><div class="kl">Integrations</div><div class="kv" style="color:var(--green)">3</div><div class="kd up">Active</div></div>
+      </div>
+      <div class="card">
+        <div class="ct">Export Now</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;align-items:center;gap:11px;padding:11px 13px;border:1px solid var(--border);border-radius:9px;cursor:pointer" onmouseover="this.style.borderColor='var(--lav)'" onmouseout="this.style.borderColor='var(--border)'"><div style="width:34px;height:34px;border-radius:8px;background:var(--lav-faint);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">📊</div><div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:var(--navy)">PDF Report</div><div style="font-size:11px;color:var(--txt3)">Full dashboard with charts and insights</div></div><span style="font-size:9px;padding:2px 7px;border-radius:20px;font-weight:600;background:#dcfce7;color:#166534">Ready</span></div>
+          <div style="display:flex;align-items:center;gap:11px;padding:11px 13px;border:1px solid var(--border);border-radius:9px;cursor:pointer" onmouseover="this.style.borderColor='var(--lav)'" onmouseout="this.style.borderColor='var(--border)'"><div style="width:34px;height:34px;border-radius:8px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">📋</div><div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:var(--navy)">CSV Data</div><div style="font-size:11px;color:var(--txt3)">Raw spot-level attribution data</div></div><span style="font-size:9px;padding:2px 7px;border-radius:20px;font-weight:600;background:#dcfce7;color:#166534">Ready</span></div>
+          <div style="display:flex;align-items:center;gap:11px;padding:11px 13px;border:1px solid var(--border);border-radius:9px;cursor:pointer" onmouseover="this.style.borderColor='var(--lav)'" onmouseout="this.style.borderColor='var(--border)'"><div style="width:34px;height:34px;border-radius:8px;background:#fffbeb;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">📑</div><div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:var(--navy)">PowerPoint</div><div style="font-size:11px;color:var(--txt3)">Stakeholder presentation deck</div></div><span style="font-size:9px;padding:2px 7px;border-radius:20px;font-weight:600;background:#dcfce7;color:#166534">Ready</span></div>
+          <div style="display:flex;align-items:center;gap:11px;padding:11px 13px;border:1px solid var(--border);border-radius:9px;cursor:pointer" onmouseover="this.style.borderColor='var(--lav)'" onmouseout="this.style.borderColor='var(--border)'"><div style="width:34px;height:34px;border-radius:8px;background:var(--violet-soft);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">🔗</div><div style="flex:1"><div style="font-size:12.5px;font-weight:600;color:var(--navy)">Shareable Link</div><div style="font-size:11px;color:var(--txt3)">Read-only dashboard with 7-day expiry</div></div><span style="font-size:9px;padding:2px 7px;border-radius:20px;font-weight:600;background:var(--lav-pale);color:var(--navy-mid)">Generate</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ct">Scheduled Reports</div>
+        <table class="cht"><thead><tr><th>Report</th><th>Frequency</th><th>Recipients</th><th>Status</th></tr></thead><tbody>
+          <tr><td><strong>Weekly KPI Summary</strong></td><td>Every Monday</td><td>yasemin@lumen.nl</td><td><span class="tag ta">Active</span></td></tr>
+          <tr><td><strong>Campaign Performance</strong></td><td>Bi-weekly</td><td>team@lumen.nl</td><td><span class="tag ta">Active</span></td></tr>
+          <tr><td><strong>GDPR Consent Report</strong></td><td>Monthly</td><td>legal@lumen.nl</td><td><span class="tag ta">Active</span></td></tr>
+          <tr><td><strong>Q3 Planning Pack</strong></td><td>One-time</td><td>management@lumen.nl</td><td><span class="tag tr">Draft</span></td></tr>
+        </tbody></table>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- EXPORT MODAL -->
+<div class="modal-overlay" id="export-modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-title">Export Report</div>
+    <div class="modal-sub">Q2 Primetime — Wake Different · May 2026</div>
+    <div class="exp-opts">
+      <div class="exp-opt sel" onclick="selExp(this)"><div class="exp-icon" style="background:var(--lav-faint)">📊</div><div><div class="exp-name">PDF Report</div><div class="exp-desc">Full dashboard with charts and insights</div></div></div>
+      <div class="exp-opt" onclick="selExp(this)"><div class="exp-icon" style="background:#f0fdf4">📋</div><div><div class="exp-name">CSV Data</div><div class="exp-desc">Raw spot-level attribution data</div></div></div>
+      <div class="exp-opt" onclick="selExp(this)"><div class="exp-icon" style="background:#fffbeb">📑</div><div><div class="exp-name">PowerPoint</div><div class="exp-desc">Presentation-ready slides</div></div></div>
+      <div class="exp-opt" onclick="selExp(this)"><div class="exp-icon" style="background:var(--violet-soft)">🔗</div><div><div class="exp-name">Shareable Link</div><div class="exp-desc">Read-only with 7-day expiry</div></div></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-dl" onclick="closeModal();alert('Export started — check your email shortly.')">Download</button>
+    </div>
+  </div>
+</div>
+
+<!-- AI CHATBOT -->
+<button class="ai-fab" onclick="toggleChat()">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.37 5.07L2 22l4.93-1.37C8.42 21.5 10.15 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2z" fill="white" fill-opacity="0.9"/><circle cx="8" cy="12" r="1.2" fill="#1a1f4e"/><circle cx="12" cy="12" r="1.2" fill="#1a1f4e"/><circle cx="16" cy="12" r="1.2" fill="#1a1f4e"/></svg>
+  <div class="ai-fab-pulse"></div>
+</button>
+<div class="ai-panel" id="ai-panel">
+  <div class="ai-ph">
+    <div class="ai-avatar"><svg viewBox="0 0 16 16" fill="none"><path d="M8 2a4 4 0 00-4 4c0 2.5-1.5 3.5-1.5 3.5h11S12 10.5 12 6a4 4 0 00-4-4z" fill="white" fill-opacity="0.8"/><path d="M6.5 12.5a1.5 1.5 0 003 0" stroke="white" stroke-width="1.2"/></svg></div>
+    <div><div class="ai-name">AdSync AI</div><div class="ai-status">● Online · NL panel · live</div></div>
+    <span class="ai-close" onclick="toggleChat()">×</span>
+  </div>
+  <div class="ai-msgs" id="ai-msgs"><div class="ai-msg bot"><div class="ai-bubble">Hi! Analyzing your Q2 NL campaign live. What would you like to explore?</div></div></div>
+  <div class="ai-sugs" id="ai-sugs">
+    <div class="ai-sug" onclick="askAI(this,'Why did NPO 1 outperform other channels?')">Why did NPO 1 outperform?</div>
+    <div class="ai-sug" onclick="askAI(this,'Compare :30s vs :15s performance')">Compare :30s vs :15s performance</div>
+    <div class="ai-sug" onclick="askAI(this,'Which streaming platform shows best AARD?')">Best streaming AARD?</div>
+    <div class="ai-sug" onclick="askAI(this,'Summarize mobile behavior findings')">Summarize mobile behavior</div>
+  </div>
+  <div class="ai-input-row">
+    <input class="ai-input" id="ai-input" placeholder="Ask anything about your campaign…" onkeydown="if(event.key==='Enter')sendAI()">
+    <button class="ai-send" onclick="sendAI()"><svg viewBox="0 0 16 16" fill="none"><path d="M2 8l12-6-6 12V8H2z" fill="white"/></svg></button>
+  </div>
+</div>
+
+<script>
+var curTab='overview', curTime='today', curNet='all';
+var tabCfg={
+  overview:      {title:'Q2 Primetime — Wake Different', time:true,  net:true},
+  livesync:      {title:'Live Sync — NPO 1 Primetime',   time:false, net:true},
+  campaigns:     {title:'Wake Different Q2 2026',          time:true,  net:true},
+  channels:      {title:'Network & Daypart Analysis',      time:true,  net:true},
+  mobilebehavior:{title:'Mobile Behavior',                 time:false, net:false},
+  audience:      {title:'Audience & Panel',                time:false, net:false},
+  alerts:        {title:'Alerts & Notifications',          time:false, net:false},
+  experiments:   {title:'Creative Experiments',            time:false, net:false},
+  spotlength:    {title:'Spot Length Comparison',          time:false, net:false},
+  creative:      {title:'Creative Intelligence',           time:false, net:false},
+  benchmarking:  {title:'Benchmarking',                    time:false, net:false},
+  mediaplanning: {title:'Q3 Budget Recommendation',        time:false, net:false},
+  exporttab:     {title:'Export & Reports',                time:false, net:false}
+};
+
+function go(id,el){
+  document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('active');});
+  if(el) el.classList.add('active');
+  document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('active');});
+  var pane=document.getElementById('pane-'+id);
+  if(pane) pane.classList.add('active');
+  var cfg=tabCfg[id]||{title:id,time:false,net:false};
+  document.getElementById('tb-title').textContent=cfg.title;
+  document.getElementById('fbar').classList[cfg.time?'add':'remove']('show');
+  document.getElementById('ntabs').classList[cfg.net?'add':'remove']('show');
+  curTab=id;
+  refreshContent();
+}
+
+function setTime(el,t){
+  document.querySelectorAll('.chip').forEach(function(c){c.classList.remove('active');});
+  el.classList.add('active');
+  curTime=t;
+  refreshContent();
+}
+
+function setNet(el,net){
+  document.querySelectorAll('.nt').forEach(function(n){n.classList.remove('active');});
+  el.classList.add('active');
+  curNet=net;
+  refreshContent();
+}
+
+var timeData={
+  today:  {visits:'47,230',lift:'6.2',aard:'84',spots:'3', mobPct:'81%',mobSub:'checked phone · r=0.84',
+    phone:[82,79,83,80,81,84,83,80,78,76,79,82,81,83,84,82,80,79,81,83,82,80,81,82],
+    skip: [10,11,9,11,10,8,9,11,12,13,11,9,10,8,7,9,11,12,10,8,9,11,10,9]},
+  '7d':   {visits:'312,480',lift:'5.4',aard:'79',spots:'28',mobPct:'76%',mobSub:'7-day avg · r=0.79',
+    phone:[70,72,68,74,76,79,72,70,68,66,74,76,72,68,76,74,70,72,68,76,74,72,70,68],
+    skip: [14,13,15,12,11,10,14,15,16,17,13,11,14,16,12,13,15,14,16,11,13,14,16,18]},
+  '28d':  {visits:'1.2M', lift:'4.9',aard:'76',spots:'112',mobPct:'73%',mobSub:'28-day avg · r=0.76',
+    phone:[68,70,66,72,68,70,66,68,70,64,68,70,72,68,66,70,68,66,70,68,70,68,66,70],
+    skip: [16,15,17,14,16,15,17,16,15,18,16,15,14,16,17,15,16,17,15,16,15,16,17,15]},
+  flight: {visits:'3.8M', lift:'5.1',aard:'78',spots:'342',mobPct:'75%',mobSub:'full flight · r=0.78',
+    phone:[72,74,70,76,72,74,70,72,74,68,72,74,76,72,70,74,72,70,74,72,74,72,70,74],
+    skip: [14,13,15,12,14,13,15,14,13,16,14,13,12,14,15,13,14,15,13,14,13,14,15,13]}
+};
+var campData={
+  today:  {lift:'6.2',spend:'EUR 2.1M',cpl:'EUR 44',aard:'76',td:[2.1,2.8,3.4,4.1,4.8,5.4,5.9,6.2],tlbl:'8-week trend'},
+  '7d':   {lift:'5.4',spend:'EUR 490k',cpl:'EUR 46',aard:'73',td:[1.8,2.2,2.8,3.6,4.2,4.8,5.1,5.4],tlbl:'7-day trend'},
+  '28d':  {lift:'4.9',spend:'EUR 1.8M',cpl:'EUR 51',aard:'71',td:[1.4,1.8,2.2,2.8,3.4,3.9,4.4,4.9],tlbl:'28-day trend'},
+  flight: {lift:'5.1',spend:'EUR 3.2M',cpl:'EUR 48',aard:'74',td:[1.2,1.8,2.4,3.1,3.8,4.3,4.8,5.1],tlbl:'Full flight'}
+};
+var allAirings=[
+  {net:'NPO1',label:'NPO 1',show:'DWDD Plus S2E12',tag:'tl',tagLabel:'LIFTED',time:'9:14 PM',len:':30s',reach:'2.1M',lift:'+6.2',liftC:'#10b981',aard:'84',aardC:'#7b8cde',visits:'11,858'},
+  {net:'RTL4',label:'RTL 4',show:'RTL Late Night',tag:'tf',tagLabel:'FLAT',time:'11:42 PM',len:':30s',reach:'1.4M',lift:'+2.1',liftC:'#f59e0b',aard:'71',aardC:'#7b8cde',visits:'3,204'},
+  {net:'NPO2',label:'NPO 2',show:'Journaal Laat',tag:'tlo',tagLabel:'LOW AARD',time:'12:05 AM',len:':15s',reach:'890k',lift:'+0.8',liftC:'#ef4444',aard:'38',aardC:'#ef4444',visits:'712'},
+  {net:'Videoland',label:'Videoland',show:'Pre-roll — Drama',tag:'tl',tagLabel:'LIFTED',time:'8:30 PM',len:':30s',reach:'1.8M',lift:'+5.9',liftC:'#10b981',aard:'87',aardC:'#7b8cde',visits:'8,200'},
+  {net:'Netflix',label:'Netflix NL',show:'Pre-roll — Series',tag:'tl',tagLabel:'LIFTED',time:'9:00 PM',len:':15s',reach:'980k',lift:'+4.0',liftC:'#10b981',aard:'79',aardC:'#7b8cde',visits:'4,900'},
+  {net:'SBS6',label:'SBS 6',show:'Hart van Nederland',tag:'tf',tagLabel:'FLAT',time:'6:30 PM',len:':15s',reach:'760k',lift:'+1.8',liftC:'#f59e0b',aard:'58',aardC:'#f59e0b',visits:'1,540'}
+];
+var netFlights={
+  all:[['Primetime A','NPO 1','24','6.2','84','ta','Active'],['Late Night B','RTL 4 / NPO 2','18','2.4','58','tr','Review'],['Streaming C','Videoland','12','5.9','87','ta','Active'],['Daytime D','SBS 6','8','0.9','31','tp','Paused'],['Netflix NL','Netflix NL','6','4.0','79','ta','Active']],
+  NPO1:[['Primetime A','NPO 1','24','6.2','84','ta','Active']],
+  NPO2:[['Late Night B','NPO 2','10','1.8','52','tr','Review']],
+  RTL4:[['Late Night B','RTL 4','18','2.4','58','tr','Review']],
+  SBS6:[['Daytime D','SBS 6','8','0.9','31','tp','Paused']],
+  Videoland:[['Streaming C','Videoland','12','5.9','87','ta','Active']],
+  Netflix:[['Netflix NL','Netflix NL','6','4.0','79','ta','Active']]
+};
+var chData={
+  today: [{n:'NPO 1',aard:84,lift:6.2,sc:94},{n:'Videoland',aard:87,lift:5.9,sc:96},{n:'Netflix NL',aard:79,lift:4.0,sc:82},{n:'RTL 4',aard:71,lift:3.2,sc:72},{n:'SBS 6',aard:58,lift:1.8,sc:48},{n:'NPO 2 Late',aard:38,lift:0.9,sc:18}],
+  '7d':  [{n:'NPO 1',aard:81,lift:5.8,sc:91},{n:'Videoland',aard:84,lift:5.5,sc:93},{n:'Netflix NL',aard:76,lift:3.7,sc:78},{n:'RTL 4',aard:68,lift:2.9,sc:68},{n:'SBS 6',aard:54,lift:1.5,sc:43},{n:'NPO 2 Late',aard:34,lift:0.8,sc:14}],
+  '28d': [{n:'NPO 1',aard:78,lift:5.2,sc:86},{n:'Videoland',aard:81,lift:5.1,sc:88},{n:'Netflix NL',aard:73,lift:3.4,sc:74},{n:'RTL 4',aard:65,lift:2.6,sc:63},{n:'SBS 6',aard:50,lift:1.3,sc:39},{n:'NPO 2 Late',aard:30,lift:0.7,sc:11}],
+  flight:[{n:'NPO 1',aard:80,lift:5.5,sc:89},{n:'Videoland',aard:83,lift:5.3,sc:91},{n:'Netflix NL',aard:75,lift:3.6,sc:77},{n:'RTL 4',aard:67,lift:2.8,sc:66},{n:'SBS 6',aard:52,lift:1.4,sc:41},{n:'NPO 2 Late',aard:32,lift:0.8,sc:13}]
+};
+var lsNetData={
+  all:{net:'NPO 1',mob:'68%',reach:'2.1M',aard:79,label:'NPO 1 Primetime'},
+  NPO1:{net:'NPO 1',mob:'68%',reach:'2.1M',aard:84,label:'NPO 1 Primetime'},
+  NPO2:{net:'NPO 2',mob:'55%',reach:'890k',aard:52,label:'NPO 2 Late'},
+  RTL4:{net:'RTL 4',mob:'62%',reach:'1.4M',aard:71,label:'RTL 4 Late Night'},
+  SBS6:{net:'SBS 6',mob:'52%',reach:'760k',aard:38,label:'SBS 6 Daytime'},
+  Videoland:{net:'Videoland',mob:'71%',reach:'1.8M',aard:87,label:'Videoland Streaming'},
+  Netflix:{net:'Netflix NL',mob:'64%',reach:'980k',aard:79,label:'Netflix NL Pre-roll'}
+};
+
+function kpi(label,val,delta,color){
+  return '<div class="kc"><div class="kl">'+label+'</div><div class="kv"'+(color?' style="color:'+color+'"':'')+'>'+val+'</div><div class="kd">'+delta+'</div></div>';
+}
+
+function refreshContent(){
+  var td=timeData[curTime]||timeData.today;
+  var cd=campData[curTime]||campData.today;
+  var chs=chData[curTime]||chData.today;
+  var nd=lsNetData[curNet]||lsNetData.all;
+  var tlMap={today:'today','7d':'7-day','28d':'28-day',flight:'full flight'};
+
+  if(curTab==='overview'){
+    document.getElementById('ov-kpis').innerHTML=
+      kpi('Total Visits',td.visits,'<span class="up">↑ vs prev period</span>')+
+      kpi('Avg Lift',td.lift+'x','<span class="up">above 3x target</span>','#10b981')+
+      kpi('Avg AARD',td.aard,'<span class="up">above category avg</span>','#7b8cde')+
+      kpi('Spots Aired',td.spots,'<span class="nu">this period</span>');
+    document.getElementById('mob-pct').textContent=td.mobPct;
+    document.getElementById('mob-sub').textContent=td.mobSub;
+    drawMob(td.phone,td.skip);
+    drawAirings();
+    var filtered=curNet==='all'?allAirings:allAirings.filter(function(a){return a.net===curNet;});
+    var lbl=document.getElementById('al-netlabel');
+    if(lbl) lbl.textContent=curNet!=='all'?'· '+curNet+' only':'';
+    var al=document.getElementById('airing-list');
+    if(al) al.innerHTML=filtered.map(function(a,i){
+      return '<div class="aitem'+(i===0?' sel':'')+'" onclick="this.parentNode.querySelectorAll(\'.aitem\').forEach(function(x){x.classList.remove(\'sel\')});this.classList.add(\'sel\')">'+
+        '<div class="ath">'+a.label.substring(0,4)+'</div>'+
+        '<div style="flex:1;min-width:0"><div class="an">'+a.show+' <span class="tag '+a.tag+'" style="margin-left:5px">'+a.tagLabel+'</span></div><div class="am">'+a.label+' · '+a.time+' · '+a.len+' · Reach '+a.reach+'</div></div>'+
+        '<div class="ametrics"><div><div class="mv" style="color:'+a.liftC+'">'+a.lift+'x</div><div class="mk">Lift</div></div><div><div class="mv" style="color:'+a.aardC+'">'+a.aard+'</div><div class="mk">AARD</div></div><div><div class="mv">'+a.visits+'</div><div class="mk">Visits</div></div></div>'+
+        '</div>';
+    }).join('')||'<div style="padding:12px;text-align:center;color:var(--txt3);font-size:12px">No airings for '+curNet+' in this period</div>';
+  }
+
+  if(curTab==='campaigns'){
+    document.getElementById('camp-kpis').innerHTML=
+      kpi('Campaign Lift',cd.lift+'x','<span class="up">↑ above 3x target</span>','#10b981')+
+      kpi('Total Spend',cd.spend,'<span class="nu">'+tlMap[curTime]+'</span>')+
+      kpi('Cost/Lift Event',cd.cpl,'<span class="up">↓ vs prev</span>')+
+      kpi('Avg AARD',cd.aard,'<span class="up">↑ vs category</span>','#7b8cde');
+    document.getElementById('camp-trendlbl').textContent=cd.tlbl;
+    drawCampSvg(cd.td);
+    var lbl=document.getElementById('camp-netlabel');
+    if(lbl) lbl.textContent=curNet!=='all'?'· '+curNet+' only':'';
+    var rows=netFlights[curNet]||netFlights.all;
+    document.getElementById('flights-table').innerHTML='<thead><tr><th>Flight</th><th>Channel</th><th>Spots</th><th>Avg Lift</th><th>Avg AARD</th><th>Status</th></tr></thead><tbody>'+
+      rows.map(function(r){
+        var lc=parseFloat(r[3])>=4?'#10b981':parseFloat(r[3])>=2?'#f59e0b':'#ef4444';
+        var ac=parseInt(r[4])>=70?'#7b8cde':parseInt(r[4])>=50?'#f59e0b':'#ef4444';
+        return '<tr><td><strong>'+r[0]+'</strong></td><td>'+r[1]+'</td><td>'+r[2]+'</td><td style="color:'+lc+';font-weight:700">'+r[3]+'x</td><td style="color:'+ac+';font-weight:700">'+r[4]+'</td><td><span class="tag '+r[5]+'">'+r[6]+'</span></td></tr>';
+      }).join('')+'</tbody>';
+    drawDaypart('daypart-bars',curTime);
+  }
+
+  if(curTab==='channels'){
+    document.getElementById('ch-timelabel').textContent=tlMap[curTime]||'';
+    var toShow=curNet==='all'?chs:chs.filter(function(c){
+      var netMap={NPO1:'NPO 1',NPO2:'NPO 2',RTL4:'RTL 4',SBS6:'SBS 6',Videoland:'Videoland',Netflix:'Netflix'};
+      return c.n.indexOf(netMap[curNet]||curNet)===0;
+    });
+    document.getElementById('ch-table').innerHTML='<thead><tr><th>Channel</th><th>AARD</th><th>Lift</th><th>Score</th></tr></thead><tbody>'+
+      toShow.map(function(c){
+        var ac=c.aard>70?'#7b8cde':c.aard>50?'#f59e0b':'#ef4444';
+        var lc=c.lift>=3?'#10b981':c.lift>=2?'#f59e0b':'#ef4444';
+        var isStreaming=c.n==='Videoland'||c.n==='Netflix NL';
+        return '<tr'+(isStreaming&&curNet==='all'?' class="hl"':'')+'>'+
+          '<td><strong>'+c.n+'</strong>'+(isStreaming?' <span class="tag ts" style="margin-left:4px">Streaming</span>':'')+'</td>'+
+          '<td style="color:'+ac+';font-weight:700">'+c.aard+'</td>'+
+          '<td style="color:'+lc+';font-weight:700">'+c.lift+'x</td>'+
+          '<td style="width:75px"><div class="sb-bar"><div class="sb-fill" style="width:'+c.sc+'%"></div></div></td></tr>';
+      }).join('')+'</tbody>';
+    drawDaypart('ch-daypart',curTime);
+  }
+
+  if(curTab==='livesync'){
+    document.getElementById('ls-net').textContent=nd.net;
+    document.getElementById('ls-netlabel').textContent=nd.label;
+    document.getElementById('ls-mob').textContent=nd.mob;
+    document.getElementById('ls-reach').textContent=nd.reach;
+  }
+}
+
+function drawAirings(){
+  var svg=document.getElementById('airings-svg');
+  if(!svg) return;
+  var W=380,H=105,pad=13;
+  var netColors={NPO1:'#1a1f4e',NPO2:'#2b3278',RTL4:'#7b8cde',SBS6:'#f59e0b',Videoland:'#a78bfa',Netflix:'#e50914'};
+  var allSpots=[{x:0.12,net:'NPO1'},{x:0.22,net:'RTL4'},{x:0.34,net:'NPO2'},{x:0.44,net:'SBS6'},{x:0.52,net:'Videoland'},{x:0.62,net:'NPO1'},{x:0.69,net:'Netflix'},{x:0.77,net:'NPO1'},{x:0.84,net:'RTL4'},{x:0.91,net:'Videoland'}];
+  var spots=curNet==='all'?allSpots:allSpots.filter(function(s){return s.net===curNet;});
+  var base=[42,46,50,54,52,62,58,74,68,85,125,190,165,148,138,205,290,360,415,390,330,285,225,185];
+  var maxV=440;
+  var line=base.map(function(v,i){
+    var boost=0;
+    spots.forEach(function(s){
+      var si=Math.round(s.x*23);
+      var dist=Math.abs(i-si);
+      if(dist<=2) boost+=(3-dist)*(curNet==='all'?28:55);
+    });
+    return Math.min(maxV,v+boost);
+  });
+  var W2=W-2*pad,H2=H-2*pad;
+  var pts=line.map(function(v,i){return (pad+i*W2/23)+','+(pad+H2-(v/maxV)*H2);}).join(' ');
+  var area=(pad+','+(pad+H2)+' ')+pts+(' '+(pad+W2)+','+(pad+H2));
+  var bars=spots.map(function(s){
+    var x=pad+s.x*W2;
+    var c=netColors[s.net]||'#7b8cde';
+    var shortLabels={NPO1:'NPO 1',NPO2:'NPO 2',RTL4:'RTL 4',SBS6:'SBS 6',Videoland:'VL',Netflix:'NF'};
+    return '<rect x="'+(x-3.5)+'" y="'+pad+'" width="7" height="'+H2+'" fill="'+c+'" opacity="0.45" rx="2"/>'+
+           '<text x="'+x+'" y="'+(pad-3)+'" text-anchor="middle" font-size="8" fill="'+c+'" font-family="DM Sans,sans-serif">'+shortLabels[s.net]+'</text>';
+  }).join('');
+  svg.innerHTML='<defs><linearGradient id="ag" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7b8cde" stop-opacity="0.18"/><stop offset="100%" stop-color="#7b8cde" stop-opacity="0.01"/></linearGradient></defs>'+
+    bars+'<polygon points="'+area+'" fill="url(#ag)"/>'+
+    '<polyline points="'+pts+'" fill="none" stroke="#7b8cde" stroke-width="2.2"/>'+
+    '<text x="'+pad+'" y="'+(H-2)+'" font-size="9" fill="#9ca3af" font-family="DM Sans,sans-serif">18:00</text>'+
+    '<text x="'+(pad+W2/2)+'" y="'+(H-2)+'" text-anchor="middle" font-size="9" fill="#9ca3af" font-family="DM Sans,sans-serif">20:00</text>'+
+    '<text x="'+(pad+W2)+'" y="'+(H-2)+'" text-anchor="end" font-size="9" fill="#9ca3af" font-family="DM Sans,sans-serif">22:00</text>';
+}
+
+function drawMob(phone,skip){
+  var svg=document.getElementById('mob-svg');
+  if(!svg) return;
+  var W=340,H=72,pad=4,n=phone.length;
+  function xAt(i){return pad+i*(W-2*pad)/(n-1);}
+  function yAt(pct){return H-pad-(pct/100)*(H-2*pad);}
+  function poly(vals,cumBelow,color){
+    var top=vals.map(function(v,i){return xAt(i)+','+yAt(cumBelow[i]+v);});
+    var bot=cumBelow.map(function(c,i){return xAt(i)+','+yAt(c);}).reverse();
+    return '<polygon points="'+top.join(' ')+' '+bot.join(' ')+'" fill="'+color+'" fill-opacity="0.88"/>';
+  }
+  var watch=phone.map(function(p,i){return 100-p-skip[i];});
+  svg.innerHTML=poly(watch,watch.map(function(){return 0;}),'#10b981')+poly(skip,watch,'#f59e0b')+poly(phone,watch.map(function(v,i){return v+skip[i];}),'#ef4444');
+}
+
+function drawCampSvg(data){
+  var svg=document.getElementById('camp-svg');
+  if(!svg) return;
+  var W=290,H=92,pad=15,maxV=Math.max.apply(null,data)*1.12;
+  var pts=data.map(function(v,i){return (pad+i*(W-2*pad)/7)+','+(pad+(H-2*pad)*(1-v/maxV));}).join(' ');
+  var labels=['W1','W2','W3','W4','W5','W6','W7','W8'];
+  svg.innerHTML='<defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7b8cde" stop-opacity="0.14"/><stop offset="100%" stop-color="#7b8cde" stop-opacity="0.01"/></linearGradient></defs>'+
+    '<polygon points="'+pts+' '+(pad+7*(W-2*pad)/7)+','+(H-pad)+' '+pad+','+(H-pad)+'" fill="url(#cg)"/>'+
+    '<polyline points="'+pts+'" fill="none" stroke="#7b8cde" stroke-width="2.2"/>'+
+    data.map(function(v,i){
+      var cx=pad+i*(W-2*pad)/7,cy=pad+(H-2*pad)*(1-v/maxV);
+      return '<circle cx="'+cx+'" cy="'+cy+'" r="3.5" fill="#1a1f4e"/>'+
+             '<text x="'+cx+'" y="'+(cy-7)+'" text-anchor="middle" font-size="9" fill="#9ca3af" font-family="DM Sans,sans-serif">'+v+'x</text>'+
+             '<text x="'+cx+'" y="'+(H-2)+'" text-anchor="middle" font-size="8" fill="#d1d5db" font-family="DM Sans,sans-serif">'+labels[i]+'</text>';
+    }).join('');
+}
+
+function drawDaypart(id,t){
+  var el=document.getElementById(id);
+  if(!el) return;
+  var delta={today:0,'7d':-3,'28d':-6,flight:-4};
+  var d=delta[t]||0;
+  var dp=[{n:'Primetime 8-10PM',v:84+d},{n:'Weekend Afternoon',v:72+d},{n:'Streaming Pre-roll',v:87+d},{n:'Late Night',v:55+d},{n:'Daytime',v:38+d}];
+  el.innerHTML=dp.map(function(x){
+    var c=x.v>70?'#7b8cde':x.v>50?'#f59e0b':'#ef4444';
+    return '<div style="padding:6px 0;border-bottom:1px solid #f3f4f6">'+
+      '<div style="display:flex;justify-content:space-between;font-size:11px;color:#374151;margin-bottom:4px"><span>'+x.n+'</span><span style="color:'+c+';font-weight:700">AARD '+x.v+'</span></div>'+
+      '<div class="sb-bar"><div class="sb-fill" style="width:'+x.v+'%"></div></div></div>';
+  }).join('');
+}
+
+function buildBench(){
+  var aard=[{l:'Lumen (You)',p:84,y:true},{l:'Brand B',p:78},{l:'Brand C',p:71},{l:'Brand D',p:66},{l:'Category Avg',p:61},{l:'Brand F',p:54},{l:'Brand G',p:42}];
+  var ba=document.getElementById('bench-aard');
+  if(ba) ba.innerHTML=aard.map(function(r){return '<div class="brow"><div class="bl" style="font-weight:'+(r.y?700:400)+';color:'+(r.y?'#1a1f4e':'#6b7280')+'">'+r.l+'</div><div class="btrack"><div class="'+(r.y?'bfn':'bfg')+'" style="width:'+r.p+'%"></div></div><div class="bval" style="color:'+(r.y?'#7b8cde':'#9ca3af')+'">'+r.p+'</div></div>';}).join('');
+  var lift=[{l:'Lumen (You)',p:77,v:'5.4x',y:true},{l:'Brand B',p:64,v:'4.5x'},{l:'Brand C',p:57,v:'4.0x'},{l:'Category Avg',p:40,v:'2.8x'},{l:'Brand E',p:30,v:'2.1x'}];
+  var bl=document.getElementById('bench-lift');
+  if(bl) bl.innerHTML=lift.map(function(r){return '<div class="brow"><div class="bl" style="font-weight:'+(r.y?700:400)+';color:'+(r.y?'#1a1f4e':'#6b7280')+'">'+r.l+'</div><div class="btrack"><div class="'+(r.y?'bfn':'bfg')+'" style="width:'+r.p+'%"></div></div><div class="bval" style="color:'+(r.y?'#10b981':'#9ca3af')+'">'+r.v+'</div></div>';}).join('');
+  function buildAlloc(bId,lId,data){
+    var b=document.getElementById(bId),l=document.getElementById(lId);
+    if(!b||!l) return;
+    b.innerHTML=data.map(function(d){return '<div class="bud-seg" style="width:'+d.p+'%;background:'+d.c+'">'+(d.p>9?d.p+'%':'')+'</div>';}).join('');
+    l.innerHTML=data.map(function(d){return '<div class="leg-i"><div class="leg-d" style="background:'+d.c+'"></div>'+d.n+' '+d.p+'%</div>';}).join('');
+  }
+  buildAlloc('cur-bar','cur-leg',[{n:'NPO 1',p:30,c:'#1a1f4e'},{n:'RTL 4',p:25,c:'#2b3278'},{n:'Videoland',p:18,c:'#7b8cde'},{n:'SBS 6',p:17,c:'#a5b0ea'},{n:'Netflix NL',p:10,c:'#c7d0f4'}]);
+  buildAlloc('rec-bar','rec-leg',[{n:'NPO 1',p:38,c:'#1a1f4e'},{n:'Videoland',p:28,c:'#7b8cde'},{n:'RTL 4',p:20,c:'#2b3278'},{n:'Netflix NL',p:10,c:'#a5b0ea'},{n:'SBS 6',p:4,c:'#d1d5db'}]);
+  var lf=document.getElementById('live-feed');
+  if(lf) lf.innerHTML=[
+    {t:'21:14:32',m:'Spot aired — NPO 1 Primetime · :30s',c:'#1a1f4e'},
+    {t:'21:14:38',m:'Mobile spike — 847 households detected',c:'#ef4444'},
+    {t:'21:14:45',m:'Search lift: "lumen sleep kussen" +340%',c:'#10b981'},
+    {t:'21:14:52',m:'Website visits +124 in last 30s',c:'#7b8cde'},
+    {t:'21:15:01',m:'AARD updating: 84 → building...',c:'#f59e0b'}
+  ].map(function(e){return '<div class="lfi" style="border-left:2px solid '+e.c+'"><span style="font-size:10px;color:#9ca3af;font-family:monospace;white-space:nowrap;flex-shrink:0">'+e.t+'</span><span style="color:#374151;margin-left:9px;font-size:12px">'+e.m+'</span></div>';}).join('');
+}
+
+function toggleNotif(){
+  var p=document.getElementById('notif-panel');
+  p.classList.toggle('open');
+}
+document.addEventListener('click',function(e){
+  var p=document.getElementById('notif-panel');
+  if(p&&p.classList.contains('open')&&!p.contains(e.target)&&!e.target.closest('.notif-btn')) p.classList.remove('open');
+  if(!e.target.closest('.aud-chip')) document.getElementById('aud-drop').classList.remove('open');
+});
+
+function toggleAudDrop(){document.getElementById('aud-drop').classList.toggle('open');}
+function selAud(label,el){
+  document.getElementById('aud-label').textContent=label;
+  document.querySelectorAll('.aud-opt').forEach(function(o){o.classList.remove('sel');});
+  el.classList.add('sel');
+  document.getElementById('aud-drop').classList.remove('open');
+}
+function openModal(){document.getElementById('export-modal').classList.add('open');}
+function closeModal(){document.getElementById('export-modal').classList.remove('open');}
+function selExp(el){document.querySelectorAll('.exp-opt').forEach(function(o){o.classList.remove('sel');});el.classList.add('sel');}
+
+setInterval(function(){
+  var d=new Date();
+  var c=document.getElementById('clk');
+  if(c) c.textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0');
+},1000);
+
+var lv=5.8,la=79,lvis=342;
+setInterval(function(){
+  lv=Math.min(6.5,Math.max(5.5,lv+(Math.random()*0.12-0.03)));
+  la=Math.min(87,Math.max(74,(la+(Math.random()*3-1.5))|0));
+  lvis=Math.max(280,lvis+(Math.floor(Math.random()*22-8)));
+  var e1=document.getElementById('live-lift'),e2=document.getElementById('live-aard'),e3=document.getElementById('ls-aard2'),e4=document.getElementById('live-vis');
+  if(e1) e1.textContent=lv.toFixed(1)+'x';
+  if(e2) e2.textContent=la;
+  if(e3) e3.textContent=la;
+  if(e4) e4.textContent=lvis.toLocaleString();
+},1800);
+
+var aiReplies={
+  'Why did NPO 1 outperform other channels?': 'NPO 1 Primetime delivered <strong>6.2x lift</strong> — best in your NL mix. Key reasons: (1) DWDD audience matches A25-54 core demo perfectly, (2) 8-10PM slot has highest AARD at 84, (3) second-screen lag of 87s is fastest in your portfolio. Recommend shifting 8pp of budget from SBS 6 to NPO 1.',
+  'Compare :30s vs :15s performance': 'On linear TV, :30s outperforms :15s by <strong>+2.1x lift</strong> on average. On streaming (Videoland, Netflix NL), the gap narrows — :15s costs EUR 22 CPM vs EUR 39 for :30s with only 12% lower AARD. Recommendation: :30s for NPO 1 primetime, :15s for streaming top-of-funnel.',
+  'Which streaming platform shows best AARD?': 'Videoland leads with <strong>AARD 87</strong> — actually beating NPO 1. This is driven by forced-view ad formats and younger, more engaged A18-34 audience. Netflix NL follows at 79. Both streaming platforms show 18% higher AARD vs linear for comparable slots.',
+  'Summarize mobile behavior findings': '<strong>81%</strong> of your panel picked up their phone within 3s of a spot ending. Of those, 34% landed on lumen-sleep.nl within 90s — your core second-screen conversion. The behavior-to-conversion funnel: Phone pickup (81%) → App/search (62%) → Website (41%) → Product page (34%) → Cart (8%).'
+};
+
+function toggleChat(){document.getElementById('ai-panel').classList.toggle('open');}
+function askAI(el,q){
+  document.getElementById('ai-sugs').style.display='none';
+  addMsg(q,'user');
+  setTimeout(function(){addMsg(aiReplies[q]||'Analyzing your NL campaign data... Based on current ACR signals across NPO 1, RTL 4, Videoland and Netflix NL, I recommend focusing your Q3 budget on NPO 1 Primetime and Videoland for highest AARD efficiency.','bot');},700);
+}
+function sendAI(){
+  var inp=document.getElementById('ai-input');
+  var q=inp.value.trim();
+  if(!q) return;
+  inp.value='';
+  document.getElementById('ai-sugs').style.display='none';
+  addMsg(q,'user');
+  setTimeout(function(){addMsg('Based on your NL panel data across linear and streaming: NPO 1 Primetime and Videoland consistently show the strongest second-screen signal for your A25-54 segment. Streaming pre-rolls (Videoland :15s) offer the best cost-efficiency for top-of-funnel reach.','bot');},800);
+}
+function addMsg(text,role){
+  var msgs=document.getElementById('ai-msgs');
+  var div=document.createElement('div');
+  div.className='ai-msg '+role;
+  div.innerHTML='<div class="ai-bubble">'+text+'</div>';
+  msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+buildBench();
+refreshContent();
+</script>
+</body>
+</html>
